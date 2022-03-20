@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[parfill]{parskip} % this package kills the indentations
+
+\usepackage[a4paper, textwidth=400pt, textheight=598pt]{geometry}
+
+% \usepackage{setspace}
+% \onehalfspacing
+
+\title{Othogonality}
+\author{huibosa}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Orthogonality of Four Subspaces}
+
+Two vectors are orthognal when their dot product is zero:
+\[\parbox{12em}{Orthogonal vectors}
+  v^Tw=0 \qquad and \qquad
+  \|v\|^{2}+\|w\|^{2}=\|v+w\|^{2}
+\]
+The right side is $(v+w)^{T}(v+w)$, which equals $v^w+w^T$ when $v^tw=w^tv=0$.
+
+A matrix multiplies a vector: $A$ times $x$. At the first level this is only numbers. At
+the second level $Ax$ is a combination of column vectors. The third level shows subspaces.
+
+\textbf{The row space is perpendicular to nullspaces.} Every row of $A$ is perpendicular to every solution of $Ax$.
+
+\textbf{The column space is perpendicular to the nullspace of $A$.} When $b$ is outside the column space--when we want to solve $Ax=b$ and can't do it--then this nullspace of $AT$ comes into its own. It contains the error $e=b-Ax$ in the "least-squares" solution.
+
+\paragraph{DEFINITION}
+
+Two subspaces $V$ and $W$ of a vector space are orthogonal if every vector $v$ in $V$ is perpendicular to ever y vector $w$ in $W$:
+\[\parbox{12em}{Orthogonal subspaces}
+  v^tw=0 \quad \text{for all $v$ in $V$ and all $w$ in $W$}
+\]
+
+\paragraph{Example 1}
+
+The floor of your room (extended to infinity) is a subspace $V$. The line where two walls meet is a subspace $W$ (one-dimensional). Those subspaces are orthogonal. Every vector up the meeting line of the walls is perpendicular to every vector in the floor.
+
+\paragraph{Example 2}
+
+Two walls look perpendicular but those two subspaces are not orthogonal! The meeting line is in both $V$ and $W$. and this line is not perpendicular to itself. \textit{Two planes (dimensions 2 and 2 in $R^3)$ cannot be orthogonal subspaces}.
+
+When a vectors is in two orthogonal subspaces it \textit{must} be zero.
+
+\newpage
+
+\section{Projections}
+
+\fbox{\parbox{\textwidth}{
+		\begin{enumerate}
+      \item The projection of $a$ vector $b$ onto the line through $a$ is the closest point $p=a(a^Tb/a^Ta)$.
+      \item The error $e=b-p$ is perpendicular to $a$ : Right triangle $b$ $p$ $e$ has $\|p\|^{2}+\|e\|^{2}=\|b\|^{2}$
+      \item The \textbf{projection} of $b$ onto $a$ subspace $S$ is the closest vector $p$ in $S;$ $b-p$ is orthogonal to $S$.
+      \item $A^TA$ is invertible (and symmetric) only if $A$ has independent columns : $N(A^TA)=N(A)$
+      \item Then the projection of $b$ onto the column space of $A$ is the vector $p=A(A^TA)^{-1}A^Tb$.
+      \item The \textbf{projection matrix} onto $C(A)$ is $P=A(A^TA)^{-1}AT.$ It has $p=Pb$ and $p^2=p=p^T$
+		\end{enumerate}
+}
+}
+
+\fbox{\parbox{8em}{Projection matrix onto z axis:}}
+\[ 
+P_1=
+\begin{bmatrix}
+  0 & 0 & 0 \\
+  0 & 0 & 0 \\
+  0 & 0 & 1
+\end{bmatrix}
+\quad \quad
+\textit{Onto the $xy$ plane:} \quad \quad
+P_2=
+\begin{bmatrix}
+  1 & 0 & 0 \\
+  0 & 1 & 0 \\
+  0 & 0 & 0
+\end{bmatrix}
+\]
+
+\end{document}

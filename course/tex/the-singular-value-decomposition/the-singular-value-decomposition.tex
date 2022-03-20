@@ -1,0 +1,31 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[parfill]{parskip} % this package kills the indentations
+
+\usepackage[a4paper, textwidth=400pt, textheight=598pt]{geometry}
+% \geometry{a4paper,textwidth=345pt,textheight=598pt}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\title{Eigenvalues and Eigenvectors}
+\author{huibosa}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Image Processing by Linear Algebra}
+\fbox{\parbox{\textwidth}{
+		\begin{enumerate}
+      \item An image is a large matrix of grayscale values, one for each pixel and color.
+      \item When nearby pixels are correlated (not random) the iamge can be compressed.
+      \item The SVD separates any marrx $A$ into rank one pieces $uv^{T}=$ (column)(row).
+      \item The columns and rows are eigenvalus of symmetric matrices $AA^{T}$ and $A^{T}A$.
+		\end{enumerate}}}
+
+
+\end{document}

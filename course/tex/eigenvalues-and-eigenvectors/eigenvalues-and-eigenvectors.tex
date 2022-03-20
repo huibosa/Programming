@@ -1,0 +1,897 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[parfill]{parskip} % this package kills the indentations
+
+\usepackage[a4paper, textwidth=400pt, textheight=598pt]{geometry}
+% \geometry{a4paper,textwidth=345pt,textheight=598pt}
+
+% \usepackage{setspace}
+% \onehalfspacing
+
+\title{Eigenvalues and Eigenvectors}
+\author{huibosa}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction to Eigenvalues}
+
+\fbox{\parbox{\textwidth}{
+		\begin{enumerate}
+			\item If $Ax = \lambda x$ then $A^2x = \lambda^2 x$ and $(A + cI)x=(\lambda + c)x$, all have the same $x$.
+			\item $\text{det}(A) = \lambda_1 \lambda_2 \cdots \lambda_n$.
+			\item $\text{trace}(A) = \sum^{n}_{i} \lambda_i$.
+			\item Projections have and only have $\lambda_1 = 1$ and $\lambda_2=0$.
+			\item Reflections have $\lambda_1 = 1$ and $\lambda_2 = -1$.
+			\item Rotations have $\lambda_1 = e^{i \theta}$ and $\lambda_2 = -e^{i \theta}$.
+		\end{enumerate}}}
+
+\paragraph{Example 1}
+\textbf{Makov matrix} has the lagest eigenvalue $ \lambda = 1 $, whose eigenvector is
+the steady state -- which all columns of $ A^k $ will approch. After infinity
+multiplications, the transformation will have $ \hat{i} \approx (0.6,\ 0.4)^T
+$ and $ \hat{j} \approx (0.6,\ 0.4)^T $.
+\[
+	A, A^2, A^3
+	=
+	\begin{bmatrix}
+		.8 & .3 \\
+		.2 & .7
+	\end{bmatrix}
+	,
+	\begin{bmatrix}
+		.70 & .45 \\
+		.30 & .55
+	\end{bmatrix}
+	,
+	\begin{bmatrix}
+		.650 & .525 \\
+		.350 & .475
+	\end{bmatrix}
+	\qquad A^{100} \approx
+	\begin{bmatrix}
+		.6000 & .6000 \\
+		.4000 & .4000
+	\end{bmatrix} \]
+All other vectors are combinations of the two eigenvectors:
+\[ x_1 = \begin{bmatrix}
+		.6 \\
+		.4
+	\end{bmatrix}
+	\quad \text{and} \quad
+	Ax_1
+	=
+	\begin{bmatrix}
+		.8 & .3 \\
+		.2 & .7
+	\end{bmatrix}
+	\begin{bmatrix}
+		.6 \\
+		.4
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		.6 \\
+		.4
+	\end{bmatrix} = \lambda_1 x_1 = 1 \cdot x_1 \]
+\[
+	x_2
+	=
+	\begin{bmatrix}
+		1 \\
+		-1
+	\end{bmatrix}
+	\quad and \quad
+	Ax_2
+	=
+	\begin{bmatrix}
+		.8 & .3 \\
+		.2 & .7
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 \\
+		-1
+	\end{bmatrix} = \begin{bmatrix}
+		.5 \\
+		.5
+	\end{bmatrix} = \lambda_2 x_2 = \frac{1}{2} x_2
+\]
+\paragraph{Example 2}
+The \textbf{projection matrix} $P = \begin{bmatrix} .5 & .5 \\ .5 & .5
+	\end{bmatrix}$ has eigenvalues $\lambda_1 = 1$ and $\lambda_2 = 0$
+\begin{enumerate}
+	\item Makov matrix has each column adds to 1, so have $\lambda = 1$.
+	\item Singular matrix has $\lambda = 0$.
+	\item Symmetric matrix has eigenvector $(1, 1)^T$ and $(1, -1)^T$ perpendicular.
+\end{enumerate}
+
+As for a projection matrix:
+\[
+	v =
+	\begin{bmatrix}
+		1 \\
+		-1
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+		2 \\
+		2
+	\end{bmatrix}
+	\quad \text{projects onto} \quad
+	Pv =
+	\begin{bmatrix}
+		0 \\
+		0
+	\end{bmatrix}
+	+
+	\begin{bmatrix}
+		2 \\
+		2
+	\end{bmatrix}
+\]
+
+\begin{itemize}
+	\item The only eigenvalue for projection matrix is 1 and 0.
+	\item The eigenvector for $\lambda = 0$ fill up the nullspace.
+	\item The eigenvector for $\lambda = 1$ fill up the column space.
+	\item The nullspace is projected to zero.
+	\item The column space is projected onto itself.
+\end{itemize}
+
+\paragraph{Example 3}
+The \textbf{reflection matrix} $R = \begin{bmatrix} 0 & 1 \\ 1 & 0
+	\end{bmatrix}$ has eigenvalue $\pm 1$.
+\[
+	R = 2P - I
+	\qquad
+	\begin{bmatrix}
+		0 & 1 \\
+		1 & 0
+	\end{bmatrix}
+	= 2
+	\begin{bmatrix}
+		.5 & .5 \\
+		.5 & .5
+	\end{bmatrix}
+	-
+	\begin{bmatrix}
+		1 & 0 \\
+		0 & 1 \\
+	\end{bmatrix}
+\]
+\begin{itemize}
+	\item A matrix with no negative entries can still have a negative eigenvalue
+	\item Because $reflection = 2(projection) - I$, so the eigenvectors for $R$ are the same for $P$.
+	\item When a matrix is shifted by $I$, each $\lambda$ is shifted by 1. No changes in eigenvectors
+\end{itemize}
+
+\subsection{The Equation for the Eigenvalues}
+
+\paragraph{Example 4}
+A = $\begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}$ is already singular (zero determinants). Find it's $\lambda$'s and $x$'s.
+
+\subsection{Determinants and Trace}
+
+\begin{enumerate}
+	\item Elimination does not preserve the $\lambda$'s
+	\item The product of the $n$ eigenvalues equal the determinant.
+	\item The sum of the $n$ eigenvalues equal the sum of the n diagonal entries.
+	\item the eigenvalues of a triangular matrix lies along its diagonal.
+\end{enumerate}
+
+\subsection{Imaginary Eigenvalues}
+
+\paragraph{Example 5}
+The  $90^{\circ}$ rotation $Q = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}$ has no real eigenvectors.Its eigenvalues are $\lambda_1 = i$ and $\lambda_2 = -i$. Then $\lambda_1 + \lambda_2 = \text{trace} = 0$ and $\lambda_1 \lambda_2 = \text{determinant} = 1$.
+
+If $Q$ rotation through $90^{\circ}$, then $Q^2$ is rotation through $180^{\circ}$, Its eigenvalues are $-1$ and $-1$. Squaring $Q$ will square each $\lambda$, so we must have $\lambda^2 = -1$
+
+\[
+	\parbox{8em}{\textbf{Complex\\ eigenvalues}}
+	\begin{bmatrix}
+		0 & -1 \\
+		1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 \\
+		i
+	\end{bmatrix}
+	= i
+	\begin{bmatrix}
+		1 \\
+		i
+	\end{bmatrix}
+	\qquad and \qquad
+	\begin{bmatrix}
+		0 & -1 \\
+		1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		i \\
+		1
+	\end{bmatrix}
+	= i
+	\begin{bmatrix}
+		i \\
+		1
+	\end{bmatrix}
+\]
+
+The particular eigenvalues $i$ and $-i$ also illustrate two special properties of $Q$:
+
+\begin{enumerate}
+	\item $Q$ is an othogonal matrix so $|\lambda| = 1$
+	\item $Q$ is a skew-symmetric matrix so each $\lambda$ is pure imaginary
+\end{enumerate}
+
+A symmetric matrix ($S^T = S$) can be compared to a real number. A skew-symmetric matrix ($A^T = -A$) can be compared to an imaginary number. The eigenvalues for all special matrices are perpendicular.
+
+\subsection{Eigenvalues of $AB$ and $A+B$}
+
+An eigenvalue $\lambda$ of $A$ times an eigenvalue $\beta$ of $B$ usually does not give an eigenvalue of $AB$, because $A$ and $B$ usually does not share the same eigenvector $X$.
+
+\begin{center}
+	\fbox{$A$ and $B$ share the same $n$ independent eigenvectors if and only if $AB=BA$}
+\end{center}
+
+\newpage
+\section{Diagonalizing a Matrix}
+
+\fbox{\parbox{\textwidth}{
+		\begin{enumerate}
+			\item The columns of $AX=X\Lambda$ are $Ax_k=\lambda_kx_k$. The eigenvalue matrix $\Lambda$ is diagonal.
+			\item $n$ independent eigenvectors in $X$ diagnalize $A$,\hfill \fbox{$A=X\Lambda X^{-1}$ and $\Lambda=X^{-1}AX$}
+			\item The eigenvector matrix $X$ also diagnalizes all powers $A^k$:\hfil \fbox{$A^k=X\Lambda^k X^{-1}$}
+			\item Slove $u_{k+1}=Au_k$ by $u_k=A^ku_0=X\Lambda^kX^{-1}=\fbox{$u_0=c_1(\lambda_1)^kx_1+c_2(\lambda_2)^kx_2$}$
+			\item \textbf{No equal eigenvalues $\Rightarrow X$} is invertible and $A$ can be diagonalized.\\ \textbf{Equal eigenvalues $\Rightarrow$} A might have too few independent eigenvectors. Then $X^{-1}$ fails.
+			\item Every matrix $C=B_{-1}AB$ ahs the \textbf{same eigenvalues} as A. These $C$'s are ``similar'' to $A$
+		\end{enumerate}}}
+
+The matrix $A$ turns into a diagonal matrix $\Lambda$ when we use the vectors properly.
+
+$$
+	X^{-1}AX = \Lambda =
+	\begin{bmatrix}
+		\lambda_1 &        &           \\
+		          & \ddots &           \\
+		          &        & \lambda_n
+	\end{bmatrix}
+$$
+
+\paragraph{Example 1}
+This $A$ is triangular so its eigenvalues are on the diagonal: $\lambda = 1$ and $\lambda = 6$
+
+\[
+	\begin{bmatrix}
+		1 & -1 \\
+		0 & 1
+	\end{bmatrix}
+	\quad
+	\begin{bmatrix}
+		1 & 5 \\
+		0 & 6
+	\end{bmatrix}
+	\quad
+	\begin{bmatrix}
+		1 & 1 \\
+		0 & 1
+	\end{bmatrix}
+	\quad = \quad
+	\begin{bmatrix}
+		1 & 0 \\
+		0 & 6
+	\end{bmatrix}
+\]
+\[
+	X^{-1} \qquad A \qquad \qquad X \qquad = \qquad \Lambda
+\]
+
+\begin{center}
+	\fbox{$A^2$ has the same eigenvector in $X$ and squared eigenvalues in $\Lambda^2$}
+\end{center}
+
+\begin{paragraph}{Why is $AX = X\Lambda$?}
+	Each columns of $X$ is multiplied by its eigenvalue:
+\end{paragraph}
+
+\begin{flalign*}
+	\parbox{10em}{\textbf{$A$ times $X$}}
+	AX = A
+	\begin{bmatrix}
+		    &        &     \\
+		x_1 & \cdots & x_n \\
+		    &        &
+	\end{bmatrix}=
+	\begin {bmatrix}
+	              &        &               \\
+	\lambda_1 x_1 & \cdots & \lambda_n x_n \\
+	              &        &
+	\end{bmatrix} &        &               %% put both && at end of equation
+\end{flalign*}
+
+The trick is to split this matrix $AX$ into $X$ times $A$.
+
+\begin{flalign*}
+	\parbox[t]{7em}{\textbf{$X$ times $\Lambda$}}
+	X\Lambda =
+	\begin{bmatrix}
+		              &        &               \\
+		\lambda_1 x_1 & \cdots & \lambda_n x_n \\
+		              &        &
+	\end{bmatrix} =
+	\begin{bmatrix}
+		    &        &     \\
+		x_1 & \cdots & x_n \\
+		    &        &
+	\end{bmatrix}
+	\begin {bmatrix}
+	\lambda_1     &        &           \\
+	              & \ddots &           \\
+	              &        & \lambda_n
+	\end{bmatrix} &        &
+\end{flalign*}
+
+\[
+	\boxed{
+		AX = X\Lambda
+		\qquad \text{is} \qquad
+		X^{-1}AX = \Lambda
+		\qquad \text{or} \qquad
+		A = X\Lambda X^{-1}
+	}
+\]
+
+The $X$ is invertible because its columns are assumed to be linearly independent.
+
+\[
+	A^k = (X\Lambda X^{-1})(X\Lambda X^{-1})\dots(X\Lambda X^{-1}) = X\Lambda^kX^{-1}
+\]
+
+\[
+	\parbox{10em}{\textbf{Powers of $A$ \\ Example 1}}
+	\begin{bmatrix}
+		1 & 5 \\
+		0 & 6
+	\end{bmatrix} ^{k} =
+	\begin{bmatrix}
+		1 & 1 \\
+		0 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 &     \\
+		  & 6^k
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 & -1 \\
+		0 & 1
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		1 & 6^k-1 \\
+		0 & 6^k
+	\end{bmatrix}
+	=
+	A^k
+\]
+
+\begin{paragraph}{Remark 1}
+	Any matrix has no repeated eigenvalues can be diagonalized.
+\end{paragraph}
+
+\begin{paragraph}{Remark 2}
+	We can multiply eigenvectors by any nonzero constants. $A(cx) = \lambda(cx)$ is still true. In example 1, we can divide $x=(1, 1)$ by $\sqrt{2}$ to produce a unit vector.
+\end{paragraph}
+
+\begin{paragraph}{Remark 3}
+	The eigenvalues in $X$ come in the same order as the eigenvalues in $A$.
+	\[
+		\parbox{8em}{\textbf{New order 6, 1}}
+		\begin{bmatrix}
+			0 & 1  \\
+			1 & -1
+		\end{bmatrix}
+		\begin{bmatrix}
+			1 & 5 \\
+			0 & 6
+		\end{bmatrix}
+		\begin{bmatrix}
+			1 & 1 \\
+			1 & 0
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			6 & 0 \\
+			0 & 1
+		\end{bmatrix}
+		= \Lambda_{\text{new}}
+	\]
+\end{paragraph}
+
+\begin{paragraph}{Remark 4}
+	Matrices have too few eigenvectors can not be diagonalized.
+	\begin{flalign*}
+		\quad \parbox{14em}{\textbf{Not diagonalizable}}
+		A =
+		\begin{bmatrix}
+			1 & -1 \\
+			1 & -1
+		\end{bmatrix}
+		\quad \textbf{and} \quad
+		B =
+		\begin{bmatrix}
+			0 & 1 \\
+			0 & 0
+		\end{bmatrix} &  &
+	\end{flalign*}
+\end{paragraph}
+
+There is no connection between invertibility and diagonalizability.
+\begin{itemize}
+	\item \textbf{Invertibility} is concerned with the \textbf{eigenvalues} ($\lambda = 0$ or $\lambda \neq 0$)
+	\item \textbf{Diagonalizability} is concerned with the \textbf{eigenvectors} (too few or enough for $X$)
+\end{itemize}
+
+\begin{paragraph}{Emample 2}
+	\textbf{Powers of A} The Makov matrix $ [\begin{smallmatrix} .8 & .3 \\ .2 & .7 \end{smallmatrix}] $ in the last section had $\lambda_1=1$ and $\lambda_2=0.5$. Here is $A=X\Lambda X^{-1}$ with those eigenvalues in the diagonal $\Lambda$:
+\end{paragraph}
+
+\begin{flalign*}
+	\parbox[t]{10em}{\textbf{Powers of $A$}}
+	A^k =
+	\begin{bmatrix}
+		.6 & 1  \\
+		.4 & -1
+	\end{bmatrix}
+	\begin{bmatrix}
+		1^k & 0      \\
+		0   & (.5)^k
+	\end{bmatrix}
+	\begin {bmatrix}
+	1  & 1     \\
+	.4 & -.6
+	\end{bmatrix}
+	=X\Lambda^k X^{-1}
+	   &     &
+\end{flalign*}
+
+\begin{flalign*}
+	\parbox[t]{10em}{\textbf{Limit k} $\to$ $\infty$}
+	A^{\infty}=
+	\begin{bmatrix}
+		.6 & 1  \\
+		.4 & -1
+	\end{bmatrix}
+	\begin{bmatrix}
+		1^k & 0 \\
+		0   & 0
+	\end{bmatrix}
+	\begin {bmatrix}
+	1               & 1   \\
+	.4              & -.6
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		.6 & .6 \\
+		.4 & .4
+	\end{bmatrix} &     &
+\end{flalign*}
+
+\begin{center}
+	\textbf{Question} \quad \fbox{When does $A^k\to$ zero matrix?} \quad \textbf{Answer} \fbox{All $|\lambda| < 1$}
+\end{center}
+
+\subsection{Similar Matrices: Same Eigenvalues}
+
+\subsection{Fibonacci Number}
+
+\begin{flalign*}
+	\textbf{Let} \quad
+	u_k=
+	\begin{bmatrix}
+		F_{k+1} \\
+		F_k
+	\end{bmatrix}.
+	\quad \textbf{Then} \quad
+	u_{k+1}=
+	\begin{bmatrix}
+		1 & 1 \\
+		1 & 0
+	\end{bmatrix}
+	u_k
+\end{flalign*}
+
+Evert step multiplies by $A=\begin{smallmatrix} 1 & 1 \\ 1 & 0 \end{smallmatrix}$. After 100 steps we reach $u_{100}=A^{100}u_0$:
+\[
+	u_0=
+	\begin{bmatrix}
+		1 \\
+		0
+	\end{bmatrix}, \quad
+	u_1=
+	\begin{bmatrix}
+		1 \\
+		1
+	\end{bmatrix}, \quad
+	u_2=
+	\begin{bmatrix}
+		2 \\
+		1
+	\end{bmatrix}, \quad
+	u_3=
+	\begin{bmatrix}
+		3 \\
+		2
+	\end{bmatrix}, \quad
+	\cdots, \quad
+	u_{100}=
+	\begin{bmatrix}
+		F_{101} \\
+		F_{100}
+	\end{bmatrix}
+\]
+Substract $\lambda$ from diagonal of $A$:
+
+\[
+	\left| A-\Lambda I \right|=
+	\begin{vmatrix}
+		1-\lambda & 1        \\
+		1         & -\lambda
+	\end{vmatrix}=
+	\lambda^2-\lambda-1.
+\]
+
+Which gives the eigenvalues:
+
+\[
+	\parbox{8em}{\textbf{Eigenvalues}}
+	\boxed{\lambda_1=\frac{1+\sqrt5}{2}=\approx 1.618}
+	\quad {\textbf{and}} \quad
+	\boxed{\lambda_1=\frac{1-\sqrt5}{2}=\approx -0.618}
+\]
+
+The eigenvalues leads to $x_1=(\lambda_1, 1)$, and $x_2=(\lambda_2, 1)$. Steps 2 finds the combination of those eigenvectors that gives $u_0=(1,0)$:
+
+\[
+	\begin{bmatrix}
+		1 \\
+		0
+	\end{bmatrix} =
+	\frac{1}{\lambda_1+\lambda_2}
+	\left(
+	\begin{bmatrix}
+			\lambda_1 \\
+			1
+		\end{bmatrix} -
+	\begin{bmatrix}
+			\lambda_2 \\
+			1
+		\end{bmatrix}
+	\right)
+	\qquad \text{or} \qquad
+	u_0=\frac{x_1-x_2}{\lambda_1-\lambda_2}
+\]
+
+Step 3 multiplies $u_0$ by $A^{100}$ to find $u_{100}$:
+
+\[
+	u_{100}=\frac{(\lambda_1)^{100}x_1-(\lambda_1)^{100}x_1}{\lambda_1-\lambda_2}
+\]
+
+\subsection{Matrix Powers $A^k$}
+
+\[
+	\parbox{10em}{\textbf{Powers of $A$}}
+	A^ku_0=(X\Lambda X^{-1})\cdots(X\Lambda X^{-1})u_0=X\Lambda^kX^{-1}u_0
+\]
+
+\begin{enumerate}
+	\item \fbox{Write $u_0$ as a combination $c_1x_1+\cdots+c_nx_n$ of eigenvectors.} Then $c = X^{-1}u_0$
+	\item \fbox{Multiply each eigenvector $x_i$ by $(\lambda_i)^k$.} Now we have $\Lambda^k X^{-1}u_0$
+	\item \fbox{Add up the pieces $c_i(\lambda_i)x_i$ to find the solutions $u_k = A^k u_0$.}  This is $X\Lambda^kX^{-1}u_0$
+\end{enumerate}
+
+\paragraph{Example 1}
+
+Start from $u_0=(1,0)$. Compute $A^u_0$ for this faster Fibonacci:
+
+\[
+	A=
+	\begin{bmatrix}
+		1 & 2 \\
+		1 & 0
+	\end{bmatrix}
+	\quad \text{has} \quad
+	\lambda_1=2
+	\quad \text{and} \quad
+	x_1=
+	\begin{bmatrix}
+		2 \\
+		1
+	\end{bmatrix},
+	\quad \lambda_2=-1
+	\quad \text{and} \quad
+	x_2=
+	\begin{bmatrix}
+		1 \\
+		-1
+	\end{bmatrix}
+\]
+
+\paragraph{Find $u_k=A^ku_0$ in 3 steps}
+
+$u_0=c_1x_1+c_2x_2$ and $u_k=c_1(\lambda_1)^kx_1+c_2(\lambda_2)^kx_2$:
+\begin{flalign*}
+	\parbox{7em}{\textbf{Step 1}}
+	u_0=
+	\begin{bmatrix}
+		1 \\
+		0
+	\end{bmatrix}=
+	\frac{1}{3}
+	\begin{bmatrix}
+		2 \\
+		1
+	\end{bmatrix}+
+	\frac{1}{3}
+	\begin{bmatrix}
+		1 \\
+		-1
+	\end{bmatrix}
+	\quad \text{so} \quad c_1=c_2=\frac{1}{3} &  &
+\end{flalign*}
+\begin{flalign*}
+	\parbox{7em}{\textbf{Step 2}}
+	\text{Multiply the two parts by $(\lambda_1)^k=2^k$ and $(\lambda_2)^k=(-1)^k$} &  &
+\end{flalign*}
+\begin{flalign*}
+	\parbox{7em}{\textbf{Step 3}}
+	\text{Combine eigenvectors $c_1(\lambda_1)^kx_1$ and $c_2(\lambda_2)^kx_2$ into $u_k$:} &  &
+\end{flalign*}
+\[
+	u_k=A^ku_0 \qquad
+	u_k=\frac{1}{3}2^k
+	\begin{bmatrix}
+		2 \\
+		1
+	\end{bmatrix}
+	+\frac{1}{3}(-1)^k
+	\begin{bmatrix}
+		1 \\
+		-1
+	\end{bmatrix}=
+	\begin{bmatrix}
+		F_{k+1} \\
+		F_k
+	\end{bmatrix}
+\]
+\subsection{Nondiagonalizable Matrices (Opitonal)}
+
+\newpage
+\section{Systems of Differential Equations}
+
+\fbox{\parbox{\textwidth}{
+		\begin{enumerate}
+			\item If $Ax=\lambda x$ then $u(t)=e^{\lambda t}x$ will solve $\frac{du}{dt}=Au$. Each $\lambda$ and $x$ give a solution $e^{\lambda t}x$
+			\item If $A=X\Lambda X_{-1}$ then \fbox{$u(t)=e^{At}X^{-1}u(0)-c_1e ^{\lambda_1t}x_1+\cdots+c_ne ^{\lambda_nt}x_n$}
+			\item A is \textbf{stable} and $u(t)\to0$ and $e^{At}\to0$ when all eigenvalues of $A$ have real part $<0$.
+			\item \textbf{Matrix exponential} $e^{At}=I+At+\cdots+(At)^n/n!+\cdots=Xe^{\Lambda t}X ^{-1}$
+			\item \textbf{Second order equation. First order system}\\ $u''+Bu'+cu=0$ is equivalent to $\begin{bmatrix} u\\ u' \end{bmatrix}'=\begin{bmatrix} 0 & 1\\ -C & -B \end{bmatrix} \begin{bmatrix} u\\ u' \end{bmatrix}$.
+		\end{enumerate}}}
+
+The whole point of the section is this: \textbf{To convert constant-coefficient differencial equations to linear algebra}.
+
+
+The ordinary equations $\frac{du}{dt}=u$ and $\frac{du}{dt}=\lambda u$ are solved by exponentials:
+\[ 
+  \frac{du}{dt}=u \quad \text{produces} \quad u(t)=Ce^{t}
+  \quad \quad \quad \quad
+  \frac{du}{dt}=\lambda u \quad \text{produces} \quad u(t)=Ce^{\lambda t}
+\]
+\textbf{The solution that start from the number $u(0)$ at time $t=0$ are $u(t)=u(0)e^{t}$ and $u(t)=u(0)e^{\lambda t}$}
+\[ 
+  \parbox{8em}{\textbf{System of \\ n equations}}
+  \frac{du}{dt}=Au \quad \text{\textbf{starting from the vector}} \quad
+  u(0)=
+  \begin{bmatrix}
+    u_1(0)\\
+    \cdots \\
+    u_n(0)
+  \end{bmatrix}
+  \qquad \text{at} \qquad
+  t=0
+\]
+The differencial equations are \textit{liear}. If $u(t)$ and $v(t)$ are solutions, so is $Cu(t)+Dv(t)$. Our first job is to find $n$ ``pure exponential solution'' $u=e^{\lambda t}$ by using $Ax=\lambda x$.
+\begin{center}
+  \textit{\textbf{Solve linear constant coefficient equations by exponentials $e^{\lambda t}$, when $Ax=\lambda x$}}
+\end{center}
+
+\subsection{Solution of $du/dt=Au$}
+
+The pure exponential solution will be $e^{\lambda t}$ times a fixed vector $x$, to prove:
+\[ 
+  \parbox{10em}{\textbf{Choose $u=e^{\lambda t}x$ \\ when $Ax=\lambda x$}}
+  \frac{du}{dt}=\lambda e^{\lambda t}x
+  \qquad \text{agrees with} \qquad
+  AU=Ae^{\lambda t}x
+\]
+All components of the special solution $u(t)=e^{\lambda t}x$ share the same $e^{\lambda t}$. The solution grows when $\lambda>0$. It decays when $\lambda<0$. If $\lambda$ is a components number, its real part decides growth or decay.
+
+\begin{flalign*}
+	\parbox{8em}{\textbf{Example 1}}
+	\text{Solve} \quad
+	\frac{du}{dt}=Au=
+	\begin{bmatrix}
+		0 & 1 \\
+		1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		y
+		\\
+		z
+	\end{bmatrix}
+	\quad \text{starting from} \quad
+	u(0)=
+	\begin{bmatrix} 4\\ 2 \end{bmatrix} &  &
+\end{flalign*}
+The matrix has eigenvalues 1 and -1. The eigenvectors are $(1,1)^{T}$ and $(1,-1)^{T}$:
+\[ 
+  u_1(t)=e^{\lambda_1t}x_1=e^t
+  \begin{bmatrix}
+    1 \\
+    1
+  \end{bmatrix}
+  \quad \quad \text{and} \quad \quad
+  u_2(t)=e^{\lambda_2t}x_2=e^{-t}
+  \begin{bmatrix}
+    1 \\
+    -1
+  \end{bmatrix}
+\]
+To find all other solutions, multiply those special solutions by any numbers $C$ and $D$ and add:
+\[ 
+  \parbox{12em}{\textbf{Compute solution}}
+  u(t)=Ce^{t}
+  \begin{bmatrix}
+    1 \\
+    1
+  \end{bmatrix}
+  +
+  De^{-t}
+  \begin{bmatrix}
+    1 \\
+    -1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    Ce^t+De^{-t} \\
+    Ce^t-De^{-t}
+  \end{bmatrix}
+\]
+
+\subsection{Second Order Equation}
+The most important equations in mechanics is $my''+by'+ky=0$
+
+\newpage
+
+\section{Symmetric Matrices}
+
+\fbox{\parbox{\textwidth}{
+\begin{enumerate}
+  \item A symmetric matrix $S$ has $n$ real eigenvalues $\lambda_i$ and $n$ orthonormal eigenvectors $q_1, \cdots q_n$.
+  \item Every real symmetric $S$ can be diagonalized: $S=Q\Lambda Q^{-1}=Q\Lambda Q^{T}$
+  \item The number of positive eigenvalues of $S$ equals the number of positive pivots
+  \item Antisymmetric matrices $A=-A^T$ have \textit{imaginary} $\lambda$'s and \textit{orthonormal (complex)} $q$'s
+\end{enumerate}}}
+
+For a symmetric matrix:
+
+\begin{enumerate}
+  \item A symmetric matrix has only real eigenvalues.
+  \item The eigenvectors can be chosen orthonormal
+\end{enumerate}
+
+\paragraph{Spectral Theorem}
+
+Every symmetric matrix has factorization $S=Q\Lambda Q^T$ with real eigenvalues in $\Lambda$ and orthonormal eigenvectors in the columns of $Q$:
+
+\[ 
+  \textbf{Symmetric diagnalization} \quad \quad
+  S=Q\Lambda Q^{-1}=Q\Lambda Q^{T}
+  \quad  \text{with} \quad
+  Q^{-1}=Q^{T}
+\]
+
+\subparagraph{Eigenvalues versus Pivots}%
+
+For symmetric matrices the pivots and the eigenvalues have the same signs:
+
+\center{\fbox{The number of positive eigenvalues of $S=S^T$ equals the number of positive pivots}}
+
+Special case: $S$ has all $\lambda_i>0$ if and only if all pivots are positive
+
+\paragraph{All symmetric Matrices are Diagonalizable}
+
+When no eigenvalues of $A$ are repeated, the eigenvectors are sure to be independent. Then $A$ can be diagonalized. There are always enough eigenvectors to diagonalized $S=S^T$
+
+\newpage
+
+\section{Positive Definite Matrices}
+
+hello
+
+\section{Recitation}
+
+\paragraph{Question}
+
+Solve the differencial equation $y'''+2y''-y-2y=0$ for the general solution. What is the matrix A?
+Find the first column of $\text{exp}(At)$.
+
+\paragraph{Solution}
+
+Convert third order equation of $y$ into a first order equation of $u(t)$.
+\begin{flalign*}
+	\begin{bmatrix}
+		y''' \\
+		y''  \\
+		y'
+	\end{bmatrix}
+	\qquad=\qquad
+	\begin{bmatrix}
+		-2 & 1 & 2 \\
+		1  & 0 & 0 \\
+		0  & 1 & 0
+	\end{bmatrix}
+	\qquad
+	\begin{bmatrix}
+		y'' \\
+		y'  \\
+		y
+	\end{bmatrix}
+\end{flalign*}
+The matrix $A$ has eigenvalues and eigenvectors:
+\[
+	\begin{array}{lll}
+		\lambda_1=1\qquad     & \lambda_2=-1     & \qquad \lambda_3=2      \\
+		x_1=(1,1,1)^{T}\qquad & x_2=(1,-1,1)^{T} & \qquad x_3=(4,-2,1)^{T}
+	\end{array}
+\]
+The general solution for $u(t)$:
+\[
+	u(t)=c_1e^{t}x_1+c_2e^{-t}x_2+c_3e^{2t}x_3
+\]
+To get $y$, just read last coordinate of $x_1$, $x_2$, and $x_3$:
+\[
+	y(t)=c_1e^{t}+c_2e^{-t}+c_3e^{2t}
+\]
+As for second part:
+\begin{flalign*}
+	                     & S=\begin{bmatrix}
+		                             &     &     \\
+		                         x_1 & x_2 & x_3 \\
+		                             &     &
+	                         \end{bmatrix}=
+	\begin{bmatrix}
+		1 & 1  & 4  \\
+		1 & -1 & -2 \\
+		1 & 1  & 1
+	\end{bmatrix}                                           \\ \\
+	                     & S^{-1}=\begin{bmatrix}
+		                              e^tx_1 & e^-tx_2 & e^2tx_3
+	                              \end{bmatrix} \\ \\
+	                     & e^{\Lambda t}=
+	\begin{bmatrix}
+		e^t &      &      \\
+		    & e^-t &      \\
+		    &      & e^2t
+	\end{bmatrix} &
+\end{flalign*}
+\begin{flalign*}
+	\text{exp}(At)= & Se^{\Lambda t}S^{-1} \\
+	                &
+\end{flalign*}
+
+\end{document}

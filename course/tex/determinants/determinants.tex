@@ -1,0 +1,184 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[parfill]{parskip} % this package kills the indentations
+
+\usepackage[a4paper, textwidth=400pt, textheight=598pt]{geometry}
+% \geometry{a4paper,textwidth=345pt,textheight=598pt}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\title{Eigenvalues and Eigenvectors}
+\author{huibosa}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{The Properties of Determinants}
+
+For a 2 by 2 matrix:
+
+\[
+	A=
+	\begin{bmatrix}
+		a & b \\
+		c & d
+	\end{bmatrix}
+	\quad \text{has inverse} \quad
+	A^{-1}=\frac{1}{ad-bc}
+	\begin{bmatrix}
+		d  & -b \\
+		-c & a
+	\end{bmatrix}
+\]
+The product of the pivots is the \textit{determinant}:
+\begin{flalign*}
+	\parbox[c]{15em}{\textbf{Product of pivots}}
+	a\left( d-\frac{e}{a}b=ad-bc \right)
+	\quad \textbf{which is}
+	\quad \text{det}(A). &  &
+\end{flalign*}
+
+\subsection{The Properties of the Determinants}
+
+\paragraph{1}
+\textbf{\textit{determinant of the $n$ by $n$ identity matrix is $1$}}.
+
+\paragraph{2}
+\textbf{\textit{The determinant changes sign when two rows are exchanged}} (sign reversal).
+
+\paragraph{3}
+\textbf{\textit{The determinant is a linear function of each row separately}} (all other rows stay fixed).
+\begin{flalign*}
+	                & \parbox[c]{20em}{\textbf{Multiply row 1 by any number $t$   \\ det is multiplied by $t$}}
+	\begin{vmatrix}
+		ta & tb \\
+		c  & d
+	\end{vmatrix}
+	=t
+	\begin{vmatrix}
+		a & b \\
+		c & d
+	\end{vmatrix}                                                                \\
+	                & \parbox[c]{20em}{\textbf{Add row 1 of $A$ to row 1 of $A'$: \\ then determinants add}}
+	\begin{vmatrix}
+		a+a' & b+b' \\
+		c    & d
+	\end{vmatrix}
+	=
+	\begin{vmatrix}
+		a & b \\
+		c & d
+	\end{vmatrix}
+	+
+	\begin{vmatrix}
+		a' & b' \\
+		c  & d
+	\end{vmatrix} &
+\end{flalign*}
+
+This rule does not mean $\text{det}(2I)=2det(I)$:
+
+\[
+	\begin{vmatrix}
+		2 & 0 \\
+		0 & 2
+	\end{vmatrix}=2^2=4
+	\quad \text{and} \quad
+	\begin{vmatrix}
+		t & 0 \\
+		0 & t
+	\end{vmatrix}=t^2
+\]
+
+This is like area and volume. Expand a rectangle by 2 and its area increases by 4. Expand an n-dimensional box by $t$ and its volume increases by $t^{n}$
+
+\paragraph{4}
+\textbf{\textit{If two rows of $A$ are equal, then $\text{det}(A)=0$}} (all other rows stay fixed).
+
+\paragraph{5}
+\textbf{\textit{Substracting a multiple of one row from another row leaves $det(A)$ unchanged}}.
+
+\paragraph{Conclusion}
+\textit{The determinant is not changed by the usual elimination steps from $A$ to $U$. Thus $\text{det}A$ equals $\text{det}U$.} Every row exchange reverse the sign, so always $\text{det}(A)=\pm\ \text{det}(U)$.
+
+\paragraph{6}
+\textbf{\textit{A matrix with rows of zeroes have $\text{det}(A)=0$}}.
+
+\paragraph{7}
+\textbf{\textit{If A is triangular then $\text{det}(A)=a_{11}a_{22}\cdots a_{nn}=product\ of\ diagonal\ entries$}}.
+
+\paragraph{8}
+\textbf{\textit{If $A$ is singular then $\text{det}(A)=0$. If $A$ is invertible then $\text{det}(A)\neq0$}}.
+
+The product of nonzero pivots gives a nonzero determinants:
+\begin{flalign*}
+	\fbox{
+		\parbox[c]{10em}{\textbf{Multiply pivots}}
+		\fbox{
+			$\text{det}(A)=\pm\ \text{det}(U)=\pm (product\ of\ the pivots)$
+	}} &  &
+\end{flalign*}
+
+The pivots of a 2 by 2 matrix (if $a\neq 0$)are $a$ and $d-(c/a)b$:
+
+\[
+	\parbox{13em}{\textbf{The determinant is}}
+	\begin{vmatrix}
+		a & b \\
+		c & d
+	\end{vmatrix}
+	=\begin{vmatrix}
+		a & b        \\
+		0 & d-(c/a)b
+	\end{vmatrix}
+	=ad-bc
+\]
+
+The sign in $\pm\ \text{det}(U)$ depends on whether the number of row exchange is even or odd: $+1$ or $-1$ is the determinant of the permutation $P$ that exchange rows.
+
+With no row exchanges, $P=I$ and $\text{det}(A)=\text{det}(U)=product\ of\ pivots$. And $\text{det}(L)=1$:
+\[
+	\text{If}\quad
+	PA=LU
+	\quad\text{then}\quad
+	\text{det}(P)\text{det}(A)=\text{det}(L)\text{det}(U)
+	\quad\text{and}\quad
+	\text{det}(A) = \pm\ \text{det}(U)
+\]
+
+\paragraph{9}
+\textbf{\textit{The determinant of $AB$ is $\text{det}(A)$ times $\text{det}(B)$}}: $|AB|=|A||B|$
+\begin{flalign*}
+	\parbox[c]{10em}{\textbf{ Product rule}}
+	\begin{vmatrix}
+		a & b \\
+		c & d
+	\end{vmatrix}
+	\begin{vmatrix}
+		p & q \\
+		r & s
+	\end{vmatrix}
+	=
+	\begin{vmatrix}
+		ap + br & aq + bs \\
+		cp + dr & eq + ds
+	\end{vmatrix} &  &
+\end{flalign*}
+
+The determinant of $A^{-1}$ is $1/\text{det}(A)$.
+
+\paragraph{10}
+\textbf{\textit{The transpose of $A$ has the same determinant of $A$.}}
+
+\paragraph{Important comment on columns}
+\fbox{Every rule for the rows can apply to the columns.}
+
+\section{Permutations and Cofactors}
+
+
+\end{document}

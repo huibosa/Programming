@@ -1,0 +1,11 @@
+favorite_languages = {
+        'jen': ['python', 'ruby'],
+        'sarah': ['c'],
+        'edward': ['ruby'],
+        'phil': ['python'],
+        }
+
+for name, languages in favorite_languages.items():
+    print(f"{name.title()}'s favorite language are:")
+    for language in languages:
+        print(language.title())

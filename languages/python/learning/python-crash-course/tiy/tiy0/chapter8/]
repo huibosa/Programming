@@ -1,0 +1,9 @@
+def foo(x, y, **kwargs):
+    dicts = {'x': x, 'y': y,}
+
+    for i, j in kwargs.items:
+        dict[i] = j
+
+    return
+
+print(foo(1, 2, 'asdfl'=3, 'sadf'=4))

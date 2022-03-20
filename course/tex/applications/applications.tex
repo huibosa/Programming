@@ -1,0 +1,95 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[parfill]{parskip} % this package kills the indentations
+
+\usepackage[a4paper, textwidth=400pt, textheight=598pt]{geometry}
+
+% \usepackage{setspace}
+% \onehalfspacing
+
+\title{Eigenvalues and Eigenvectors}
+\author{huibosa}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Makov Matrices, Populations, and Economics}
+
+This section is about \textbf{\textit{positive matrices}}: every $a_{ij}>0$, and \textbf{\textit{The largest eigenvalue is real and positive and so its eigenvector}}
+
+\subsection{Makov Matrices}
+The steady state equation $Au_{\infty}=u_{\infty}$ makes $u_{\infty}$ an eigenvector with eigenvalue 1:
+\begin{flalign*}
+	\quad \text{steady state}\quad \quad
+	\begin{bmatrix}
+		.8 & .3 \\
+		.2 & .7
+	\end{bmatrix}
+	\begin{bmatrix}
+		.6 \\
+		.4
+	\end{bmatrix}=
+	\begin{bmatrix}
+		.6 \\
+		.4
+	\end{bmatrix}=u_{\infty}
+\end{flalign*}
+
+\begin{align*}
+  &&\boxed{
+		\begin{array}{ll}
+			\text{Makov Matirx} \quad \quad &
+			\boxed{
+				\parbox{20em}{
+			Every entry of $A$ is positive: $a_{ij}>0$ \\
+					Every column of $A$ adds to 1.
+				}
+			}
+		\end{array}
+	}
+\end{align*}
+
+Because of 1: Multiplying $u_0 > 0$ by A produces a nonnegative $u_1=Au_0\neq0$. \\
+Because of 2: If the components of $u_0$ add to 1, so do the components of $u_1 = Au_0$.
+
+\paragraph{Example 1}
+
+The fraction of rental cars in Denver starts at $\frac{1}{50} = .02$. The fraction outside Denver is .98. Every month, 80\% of the Denver cars stay in Denver (and 20\% leave).  Also 5\% of the outside cars come in (95\% stay outside). This means that the fractions $u_0 = (.02, .98)$ are multiplied by A:
+
+$u_{\infty}$ is an eigenvector of $A$ corresponding to $\lambda=1$
+
+\paragraph{Solution}
+
+The eigenvalues are $\lambda_1=1$ and $\lambda_2=.75$
+
+\begin{flalign*}
+	\parbox{10em}{$Ax=\lambda x$}
+	A
+	\begin{bmatrix}
+		.2 \\
+		.8
+	\end{bmatrix}=
+	1
+	\begin{bmatrix}
+		.2 \\
+		.8
+	\end{bmatrix}
+	\quad \quad \text{and} \quad \quad
+	A
+	\begin{bmatrix}
+		-1 \\
+		1
+	\end{bmatrix}=
+	.75
+	\begin{bmatrix}
+		-1 \\
+		1
+	\end{bmatrix}
+\end{flalign*}
+
+
+\end{document}
