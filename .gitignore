@@ -9,8 +9,6 @@
 **/*.ipynb
 **/*.txt
 **/*.json
-**/*.mod
-**/*.sum
 **/build
 /Tex/**/*.aux
 /Tex/**/*.fdb_latexmk
