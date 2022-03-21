@@ -25,9 +25,10 @@ func CheckUsage(username string) {
 	if percent < 90 {
 		return // OK
 	}
-  msg := fmt.Sprintf(template, used, percent)
-  auth := smtp.PlainAuth("", username, password, hostname)
-  err := smtp.SendMail(hostname+"857", auth, sender, []string{username}, []byte(msg))
-  if err != nil {
-    log.Printf("smtp.SendMail(%s) failed: %s", username, err)
-  }
+	msg := fmt.Sprintf(template, used, percent)
+	auth := smtp.PlainAuth("", username, password, hostname)
+	err := smtp.SendMail(hostname+"857", auth, sender, []string{username}, []byte(msg))
+	if err != nil {
+		log.Printf("smtp.SendMail(%s) failed: %s", username, err)
+	}
+}
