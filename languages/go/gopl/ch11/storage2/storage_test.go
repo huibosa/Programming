@@ -1,6 +1,9 @@
 package storage
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestCheckQuotaNotifiesUser(t *testing.T) {
 	var notifiedUser, notifiedMsg string
@@ -13,6 +16,15 @@ func TestCheckQuotaNotifiesUser(t *testing.T) {
 
 	CheckQuota(user)
 	if notifiedUser == "" && notifiedMsg == "" {
-		t.Errorf("wrong user (%s) notified want %s", notifyUser, user)
+		t.Fatalf("notifyUser not called")
+	}
+	if notifiedUser != user {
+		t.Errorf("wrong user (%s) notified, want %s",
+			notifiedUser, user)
+	}
+	const wantSubstring = "98% of your quota"
+	if !strings.Contains(notifiedMsg, wantSubstring) {
+		t.Errorf("unexpected notification message <<%s>>, "+
+			"want substring %q", notifiedMsg, wantSubstring)
 	}
 }
