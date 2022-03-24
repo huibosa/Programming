@@ -7,6 +7,11 @@ import (
 
 func TestCheckQuotaNotifiesUser(t *testing.T) {
 	var notifiedUser, notifiedMsg string
+
+	// NOTE: save and restore the original notifyUser
+	saved := notifyUser
+	defer func() { notifyUser = saved }()
+
 	notifyUser = func(user, msg string) {
 		notifiedUser, notifiedMsg = user, msg
 	}
