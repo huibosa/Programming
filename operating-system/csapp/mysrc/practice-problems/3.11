@@ -1,0 +1,23 @@
+
+```
+xorq %rcx, %rcx
+```
+
+1. This instruction is used to set register %rcx to zero, exploiting the
+   property that x ^ x = 0 for any x. It corresponds to the C statement x = 0.
+2. A more direct way of setting register %rcx to zero is with the instruction
+   movq $0,%rcx.
+3. Assembling and disassembling this code, however, we find that the version
+   with xorq requires only 3 bytes, while the version with movq requires 7.
+   Other ways to set %rcx to zero rely on the property that any instruction
+   that updates the lower 4 bytes will cause the high-order bytes to be set to
+   zero. Thus, we could use either xorl %ecx,%ecx (2 bytes) or movl $0,%ecx (5
+   bytes).
+
+```
+0:   48 31 c9                xor    %rcx,%rcx
+3:   48 c7 c1 00 00 00 00    mov    $0x0,%rcx
+a:   89 c9                   mov    %ecx,%ecx
+c:   b9 00 00 00 00          mov    $0x0,%ecx
+```
+

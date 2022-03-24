@@ -1,0 +1,10 @@
+> Suppose register `%rbx` holds value `p` and `%rdx` holds value `q`.
+
+```
+leaq 9(%rdx), %rax            ; 9 + q
+leaq (%rdx, %rbx), %rax       ; p + q
+leaq (%rdx, %rbx, 3), %rax    ; 3p + q
+leaq 2(%rbx, %rbx, 7), %rax   ; 8p + 2
+leaq 0xE(, %rdx, 3), %rax     ; 3q + 14
+leaq 6(%rbx, %rdx, 7), %rax   ; 7q + p + 6
+```

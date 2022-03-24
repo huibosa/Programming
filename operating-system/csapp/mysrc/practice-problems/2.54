@@ -1,0 +1,5 @@
+A. x == (int)(double) x           1
+B. x == (int)(float) x            x = TMAX
+C. d == (double)(float) d         
+D. f == (float)(double) f
+E. f == -(-f)

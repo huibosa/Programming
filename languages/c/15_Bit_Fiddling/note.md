@@ -518,10 +518,8 @@ blue = (color >> 16) & BYTE_MASK;
 
 ### Programming Example
 
-
 ```c
-char * itobs(int n, char * ps)
-{
+char * itobs(int n, char * ps) {
     const static int size = CHAR_BIT * sizeof(int);
 
     for (int i = size - 1; i >= 0; i--, n >>= 1) {
@@ -532,8 +530,7 @@ char * itobs(int n, char * ps)
     return ps;
 }
 
-void show_bstr(const char * ps)
-{
+void show_bstr(const char * ps) {
     int i = 1;
 
     while (*ps)
@@ -558,13 +555,11 @@ void show_bstr(const char * ps)
 ### Another Example
 
 ```c
-int invert_end(int num, int bits)
-{
+int invert_end(int num, int bits) {
     int mask = 0;
     int bitval = 1;
 
-    while (bits-- > 0)
-    {
+    while (bits-- > 0) {
         mask |= bitval;
         bitval <<= 1;
     }
@@ -581,8 +576,7 @@ int invert_end(int num, int bits)
 ## Bit Fields
 
 ```c
-struct 
-{
+struct {
     unsigned int autfd    : 1;
     unsigned int bldfc    : 1;
     unsigned int undln    : 1;

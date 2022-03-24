@@ -1,0 +1,39 @@
+```
+test:
+  leaq  (%rdi + %rsi), %rax     ; ret = x + y
+  subq  %rdi, %rax              ; ret -= x
+  cmpq  $5, %rdx                ; cmp = compare(z - 5)
+  jle   .L2                     ; if z <= 5, goto .L2
+  cmpq  $2, %rsi                ; cmp = compare(y - 2)
+  jle   .L3                     ; if y <= 2 goto .L3
+  movq  %rdi, %rax              ; ret = x
+  idivq %rdx, %rax              ; rax /= z
+  ret
+.L3:
+  movq  %rdi, %rax              ; ret = x
+  idivq %rsi, %rax              ; ret /= y
+.L2:
+  cmpq  $3, %rdx                ; cmp = compare(z - 3)
+  jge   .L4                     ; if z >= 3, goto .L4
+  movq %rdx, %rax               ; ret = z
+  idivq %rsi, %rax              ; ret /= y
+.L4:
+  rep; ret
+```
+
+```c
+short test(short x, short y, short z) {
+  short val = y + z - x;
+  if (z > 5) {
+    if (y > 2) {
+      val = x / z;
+    } else {
+      val = x / y;
+    }
+  } else if (z < 3) {
+    val = z / y;
+  }
+  return val;
+}
+```
+

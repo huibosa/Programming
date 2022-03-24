@@ -1,0 +1,40 @@
+```c
+int comp(data_t a, data_t b) {
+    return a COMP b;
+}
+```
+
+```
+cmpl %esi, %edi
+setl %al
+
+typedef int data_t
+#define CMP <
+```
+
+```
+cmpw %si, %di
+setge %al
+
+typedef short data_t
+#define CMP >=
+```
+
+```
+cmpl %sil, %dil
+setbe %al
+
+typedef unsigned char data_t
+#define CMP <=
+```
+
+```
+cmpq %rsi, %rdi
+setne %al
+
+typedef long data_t ||
+typedef unsigned long data_t ||
+typedef char * data_t ||
+#define CMP !=
+```
+

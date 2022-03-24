@@ -1,0 +1,9 @@
+> Running on a new processor model, our code required around 45 cycles when the
+> branching pattern was random, and around 25 cycles when the pattern was
+> highly predictable.
+>
+> 1. What is the approximate miss penalty?
+> 2. How many cycles would the function require when the branch is mispre-
+>    dicted?
+
+1. $T_{MP} = 2 (45 - 25) = 40$
