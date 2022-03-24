@@ -1,0 +1,6 @@
+int tsub_ok(int x, int y) {
+    int diff = x - y;
+    int pos_over = x >= 0 && y <= 0 && diff < 0;
+    int neg_over = x < 0 && y > 0 && diff >= 0;
+    return !pos_over && !neg_over;
+}
