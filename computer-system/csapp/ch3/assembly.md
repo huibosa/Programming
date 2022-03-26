@@ -11,7 +11,7 @@
 |`double`|Double precision|l|8|
 
 > The assembly code uses the suffix ‘l’ to denote a 4-byte integer as well as
-> an 8-byte double-precision floating-point number. This causes no ambigu- ity,
+> an 8-byte double-precision floating-point number. This causes no ambigu-ity,
 > since floating-point code involves an entirely different set of instructions
 > and registers.
 
