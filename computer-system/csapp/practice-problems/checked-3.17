@@ -1,0 +1,22 @@
+```
+long gotdiff_se2(long x, long y) {
+    long result;
+    if (x < y) {
+        goto x_l_y;
+    }
+    ge_cnt++;
+    result = x - y;
+x_l_y:
+    lt_cnt++;
+    result = y - x;
+    return result;
+}
+```
+
+```
+    t = test-expr
+    if (!t)
+        goto done
+    then-expr
+done:
+```

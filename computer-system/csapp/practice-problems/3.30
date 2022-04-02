@@ -1,0 +1,25 @@
+switch2:
+  addq  $1, %rdi       # x = x + 1
+  cmpq  $8, %rdi
+  ja    .L2            # if (x > 8); goto L2
+  jmp   *.L4(,%rdi, 8) # switch x
+.L4:
+  .quad .L9
+  .quad .L5
+  .quad .L6
+  .quad .L7
+  .quad .L2            # default
+  .quad .L7
+  .quad .L8
+  .quad .L2            # default
+  .quad .L5
+
+
+A. What were the values of the case labels in the switch statement?
+-------------------------------------------------------------------
+The case labels in the switch statement body have values -1, 0, 1, 2, 4, 5, and 7.
+
+B. What cases had multiple labels in the C code?
+------------------------------------------------
+The case with destination . L5 has labels 0 and 7.
+The case with destination , L7 has labels 2 and 4.

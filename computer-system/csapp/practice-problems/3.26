@@ -1,0 +1,48 @@
+fun_a:
+  movl  $0,   %eax        # ret = 0
+  jmp   .L5               # goto L5
+.L6:
+  xorq  %rdi, %rax        # ret ^= x
+  shrq  %rdi              # x >>= 1
+.L5:
+  testq %rdi, %rdi
+  jne   .L6               # if (x != 0); goto L6
+  andl  $1,   %eax        # ret &= 1
+  ret
+
+
+A. Determine what loop translation method was used.
+---------------------------------------------------
+jump-to-middle while loop
+
+
+B. Use the assembly-code version to fill in the missing parts of the C code.
+----------------------------------------------------------------------------
+long fun_a(unsigned long x) {
+  long val = 0;
+  while (x) {
+    val ^= x;
+    x >>= 1;
+  }
+  return val & 0x1;
+}
+
+
+C. Describe in English what this function computes.
+---------------------------------------------------
+This code computes the parity of argument x. That is, it returns 1 if there is
+an odd number of ones in x and 0 if there is an even number.
+
+x = 1011
+ret = 0000 ^ 1011 = 1011
+ret = 1011 ^ 0101 = 1110
+ret = 1110 ^ 0010 = 1100
+ret = 1100 ^ 0001 = 1101
+ret = 1101 & 0001 = 1
+
+x = 1100
+ret = 0000 ^ 1100 = 1100
+ret = 1100 ^ 0110 = 1010
+ret = 1010 ^ 0011 = 1001
+ret = 1001 ^ 0001 = 1000
+ret = 1000 & 0001 = 0

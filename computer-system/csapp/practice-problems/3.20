@@ -1,0 +1,22 @@
+#define OP
+
+/* Unknown operator */
+long arith(long x) {
+    return x OP 8;
+}
+
+
+arith:
+  leaq    7(%rdi),  %rax    # %rax = x + 7
+  testq   %rdi,     %rdi    # test(x == 0)
+  cmovns  %rdi,     %rax    # if (x >= 0); %rax = x
+  sarq    $3,       %rax    # %rax >>A 3
+  ret
+
+
+A. What operation is OP?
+------------------------
+"/"
+
+B. Annotate the code to explain how it works.
+---------------------------------------------

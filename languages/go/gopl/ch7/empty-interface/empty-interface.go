@@ -3,7 +3,7 @@ package main
 import "bytes"
 
 func main() {
-	var any interface{}
+	var any any
 	any = true
 	any = 12.34
 	any = "hello"

@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	var i interface{}
+	var i any
 	describe(i)
 
 	i = 42
@@ -13,6 +13,6 @@ func main() {
 	describe(i)
 }
 
-func describe(x interface{}) {
+func describe(x any) {
 	fmt.Printf("(%v, %T)\n", x, x)
 }

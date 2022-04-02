@@ -1,0 +1,11 @@
+short scale3(short x, short y, short z) {
+    short t = 5 * x + 2 * y + 8 * z
+    return t;
+}
+
+```
+leaq (%rdi, %rdi, 4), %rax    ; 5 * x
+leaq (%rax, %rsi, 2), %rax    ; 5 * x + 2 * y
+leaq (%rax, %rdx, 8), %rax    ; 5 * x + 2 * y + 8 * z
+ret
+```

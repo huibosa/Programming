@@ -1,0 +1,41 @@
+P:
+  pushq %r15
+  pushq %r14
+  pushq %r13
+  pushq %r12
+  pushq %rbp
+  pushq %rbx
+  subq $24, %rsp
+  movq %rdi, %rbx
+  leaq 1(%rdi), %r15
+  leaq 2(%rdi), %r14
+  leaq 3(%rdi), %r13
+  leaq 4(%rdi), %r12
+  leaq 5(%rdi), %rbp
+  leaq 6(%rdi), %rax
+  movq %rax, (%rsp)
+  leaq 7(%rdi), %rdx
+  movq %rdx, 8(%rsp)
+  movl $0, %eax
+  call Q
+
+
+A. Identify which local values get stored in callee-saved registers.
+--------------------------------------------------------------------
+*rbx = x
+*r15 = x + 1
+*r14 = x + 2
+*r13 = x + 3
+*r12 = x + 4
+*rbp = x + 5
+
+
+B. Identify which local values get stored on the stack.
+-------------------------------------------------------
+*rsp = x + 6
+*(rsp + 7) = x + 7
+
+
+C. Explain why the program could not store all of the local values in callee-
+saved registers.
+-----------------------------------------------------------------------------

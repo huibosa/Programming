@@ -14,9 +14,9 @@ type Memo struct {
 }
 
 // Func is the type of the function to memoize.
-type Func func(key string) (interface{}, error)
+type Func func(key string) (any, error)
 type result struct {
-	value interface{}
+	value any
 	err   error
 }
 
@@ -27,7 +27,7 @@ func New(f Func) *Memo {
 	}
 }
 
-func (memo *Memo) Get(key string) (interface{}, error) {
+func (memo *Memo) Get(key string) (any, error) {
 	memo.mu.Lock()
 	res, ok := memo.cache[key]
 	if !ok {

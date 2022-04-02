@@ -25,10 +25,6 @@ Some bit wise exercise:
 
 -----------------------------------------------------------------------
 
-what is `^u >> 1`
-
------------------------------------------------------------------------
-
 /home/huibosa/Packages/Learning/gopl/ex8.9
 
 * use two slices instead
@@ -43,8 +39,27 @@ why a net.Conn is passed by value
 
 -----------------------------------------------------------------------
 
-What is population count
+integer division round toward zero
 
 -----------------------------------------------------------------------
 
-integer division round toward zero
+long P(long x, long y) {
+  long u = Q(y);
+  long v = Q(x);
+  return u + v;
+}
+
+push %rbp
+push %rbx
+sub  $8, %rsp     # why
+mov  %rdi, %rbp
+mov  %rsi, %rdi
+call Q
+mov  %rax, %rbx
+mov  %rbp, %rdi
+call Q
+add  %rbx, %rax
+add  $8, %rsp
+pop  rbx
+pop  rbp
+

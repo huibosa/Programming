@@ -1,14 +1,14 @@
 ## 3.3 Data Formats
 
-|C declaration|Intel data type|Assembly-code suffix|Size(bytes)|
-|-|-|-|-|
-|`char`|Byte|b|1|
-|`short`|Word|w|2|
-|`int`|Double word|l|4|
-|`long`|Quad word|q|8|
-|`char *`|Quad word|q|8|
-|`float`|Single precision|s|4|
-|`double`|Double precision|l|8|
+| C declaration | Intel data type  | Assembly-code suffix | Size(bytes) |
+| -             | -                | -                    | -           |
+| `char`        | Byte             | b                    | 1           |
+| `short`       | Word             | w                    | 2           |
+| `int`         | Double word      | l                    | 4           |
+| `long`        | Quad word        | q                    | 8           |
+| `char *`      | Quad word        | q                    | 8           |
+| `float`       | Single precision | s                    | 4           |
+| `double`      | Double precision | l                    | 8           |
 
 > The assembly code uses the suffix ‘l’ to denote a 4-byte integer as well as
 > an 8-byte double-precision floating-point number. This causes no ambigu-ity,
@@ -144,6 +144,24 @@ using the standard memory addressing methods.
 
 ## 3.5 Arithmetic and Logical Operations
 
+| Instructions | Effect       | Description              |
+| ------------ | ------------ | ------------------------ |
+| leaq S, D    | D <- &S      | Load effective address   |
+| inc D        | D <- D+1     | Increment                |
+| dec D        | D <- D−1     | Decrement                |
+| neg D        | D <- -D      | Negate                   |
+| not D        | D <- ~D      | Complement               |
+| add S, D     | D <- D + S   | Add                      |
+| sub S, D     | D <- D − S   | Subtract                 |
+| imul S, D    | D <- D * S   | Multiply                 |
+| xor S, D     | D <- D ^ S   | Exclusive-or             |
+| or S, D      | D <- D | S   | Or                       |
+| and S, D     | D <- D & S   | And                      |
+| sal k, D     | D <- D << k  | Left shift               |
+| shl k, D     | D <- D << k  | Left shift (same as sal) |
+| sar k, D     | D <- D >>A^k | Arithmetic right shift   |
+| shr k, D     | D <- D >>L^k | Logical right shift      |
+
 ### 3.5.1 Load Effective Address
 
 > Compilers often find clever uses of leaq that have nothing to do with
@@ -230,7 +248,7 @@ void remdiv(long x, long y, long * qp, long * rp) {
 movq %rdx, %r8
 movq %rdi, %rax
 cqto              ; sign-extend to upper 8 bytes of dividend
-idivl %r8
+idivl %rsi
 movq %rax, (%r8)
 movq %rdx, (%rcx)
 ret
@@ -259,26 +277,40 @@ OF    (a < 0 == b < 0) && (t < 0 != a < 0)  ; signed overflow
 * For reasons that we will not delve into, the `inc` and `dec` instructions set
   the overflow and zero flags, but they leave the carry flag unchanged.
 
+| Instruction | Based on       | Description         |
+| ----------- | -------------- | ------------------- |
+| cmp         | S1, S2 S2 − S1 | Compare             |
+| cmpb        |                | Compare byte        |
+| cmpw        |                | Compare word        |
+| cmpl        |                | Compare double word |
+| cmpq        |                | Compare quad word   |
+|             |                |                     |
+| test        | S1, S2 S1 & S2 | Test                |
+| testb       |                | Test byte           |
+| testw       |                | Test word           |
+| testl       |                | Test double word    |
+| testq       |                | Test quad word      |
+
 > Typically, the same operand is repeated (e.g., testq %rax,%rax to see whether
 > %rax is negative, zero, or positive), or one of the operands is a mask
 > indicating which bits should be tested.
 
 ### 3.6.2 Accessing the Condition Codes
 
-|Instruction|Synonym|Effect|Set condition|
-|-|-|-|-|
-|`sete`|`setz`|`ZF`|Equal/zero|
-|`setne`|`setnz`|`~ZF`|Not equal / not zero|
-|`sets`||`SF`|Negative|
-|`setns`||`~SF`|Nonnegative|
-|`setg`|`setnle`|`~(SF^OF) & ZF`|Greater (signed >)|
-|`setge`|`setnl`|`~(SF^OF)`|Greater or equal (signed >=)|
-|`setl`|`setnge`|`SF^OF`|Less (signed <)|
-|`setle`|`setng`|`(SF^OF) | ZF`|Less or equal (signed <=)|
-|`seta`|`setnbe`|`CF ^ ~ZF`|Above (unsigned >)|
-|`setae`|`setnb`|`~CF`|Above or equal (unsigned >=)|
-|`setb`|`setnae`|`CF`|Below (unsigned <)|
-|`setbe`|`setna`|`CF | ZF`|Below or equal(unsigned <=)|
+| Instruction | Synonym  | Effect                | Set condition                |
+| ----------- | -------- | --------------------  | ---------------------------- |
+| `sete`      | `setz`   | D <- `ZF`             | Equal/zero                   |
+| `setne`     | `setnz`  | D <- `~ZF`            | Not equal / not zero         |
+| `sets`      |          | D <- `SF`             | Negative                     |
+| `setns`     |          | D <- `~SF`            | Nonnegative                  |
+| `setg`      | `setnle` | D <- `~(SF^OF) & ~ZF` | Greater (signed >)           |
+| `setge`     | `setnl`  | D <- `~(SF^OF)`       | Greater or equal (signed >=) |
+| `setl`      | `setnge` | D <- `SF^OF`          | Less (signed <)              |
+| `setle`     | `setng`  | D <- `(SF^OF) | ZF`   | Less or equal (signed <=)    |
+| `seta`      | `setnbe` | D <- `CF ^ ~ZF`       | Above (unsigned >)           |
+| `setae`     | `setnb`  | D <- `~CF`            | Above or equal (unsigned >=) |
+| `setb`      | `setnae` | D <- `CF`             | Below (unsigned <)           |
+| `setbe`     | `setna`  | D <- `CF | ZF`        | Below or equal(unsigned <=)  |
 
 ```
 cmpq %rsi, %rdi
@@ -287,31 +319,42 @@ movzbl %al, %eax  ; Clear rest of %eax (and rest of %rax)
 ret
 ```
 
+* Similarly, consider testing for signed comparison with the `setl`, or "set
+  when less," instruction. When no overflow occurs (indicated by having `OF`
+  set to 0), we will have a < b when a -t w b < 0, indicated by having `SF` set
+  to 1, and a ≥ b when a -t w b ≥ 0, indicated by having `SF` set to 0.
+* On the other hand, when overflow occurs, we will have a < b when a -t w b > 0
+  (negative overflow) and a > b when a -t w b < 0 (positive overflow). We
+  cannot have overflow when a = b. Thus, when `OF` is set to 1, we will have a
+  < b if and only if `SF` is set to 0. Combining these cases, the exclusive-or
+  of the overflow and sign bits provides a test for whether a < b.
+
 ### 3.6.3 Jump Instructions
 
 ```
   movq $0, %rax
   jmp .L1
-  movq (%rax), %rdx
+  movq (%rax), %rdx     # Null pointer dereference (skipped)
 .L1:
   popq %rdx
 ```
 
-|Instruction|Synonym|Jump condition|
-|`jmp Label`||1|
-|`jmp *Operand`||1|
-|`je`|`jz`|`ZF`|
-|`jne`|`jnz`|`~ZF`|
-|`js`||`SF`|
-|`jns`||`~SF`|
-|`jg`|`jnle`|`~(SF^OF) & ~ZF`|
-|`jge`|`jnl`|`~(SF^OF)`|
-|`jl`|`jnge`|`SF^OF`|
-|`jle`|`jng`|`(SF^OF) | ZF`|
-|`ja`|`jnbe`|`~CF & ~ZF`|
-|`jae`|`jnb`|`~CF`|
-|`jb`|`jnae`|`CF`|
-|`jbe`|`jna`|`CF | ZF`|
+| Instruction    | Synonym | Jump condition   |
+| -------------- | ------- | --------------   |
+| `jmp Label`    |         | 1                |
+| `jmp *Operand` |         | 1                |
+| `je`           | `jz`    | `ZF`             |
+| `jne`          | `jnz`   | `~ZF`            |
+| `js`           |         | `SF`             |
+| `jns`          |         | `~SF`            |
+| `jg`           | `jnle`  | `~(SF^OF) & ~ZF` |
+| `jge`          | `jnl`   | `~(SF^OF)`       |
+| `jl`           | `jnge`  | `SF^OF`          |
+| `jle`          | `jng`   | `(SF^OF) | ZF`   |
+| `ja`           | `jnbe`  | `~CF & ~ZF`      |
+| `jae`          | `jnb`   | `~CF`            |
+| `jb`           | `jnae`  | `CF`             |
+| `jbe`          | `jna`   | `CF | ZF`        |
 
 ### 3.6.4 Jump Instruction Encodings
 
@@ -345,7 +388,7 @@ d: f3 c3          repz retq
 ```
 
 * The value of the program counter when performing PC-relative addressing is
-  the address of the instruction following the jump, not that of the jump
+  the address of the instruction *following the jump*, not that of the jump
   itself.
 * This convention dates back to early implementations, when the processor would
   update the program counter as its first step in executing an instruction.
@@ -376,10 +419,36 @@ done:
 2. Conditional transfer of *data*
 
 ```
-v = test-expr ? then-expr : else-expr;
+absdiff:
+  movq %rsi, %rax
+  subq %rdi, %rax   # rval = y-x
+  movq %rdi, %rdx
+  subq %rsi, %rdx   # eval = x-y
+  cmpq %rsi, %rdi
+  Compare x:y
+  cmovge %rdx, %rax # If >=, rval = eval
+  ret Return tval
 ```
 
+| Instruction | Synonym | Move condition   | Description                     |
+| ----------- | ------- | --------------   | -----------                     |
+| cmove S, R  | cmovz   | ZF               | Equal / zero                    |
+| cmovne S, R | cmovnz  | ~ZF              | Not equal / not zero            |
+| cmovs S, R  |         | SF               | Negative                        |
+| cmovns S, R |         | ~SF              | Nonnegative                     |
+| cmovg S, R  | cmovnle | ~(SF ^ OF) & ~ZF | Greater (signed >)              |
+| cmovge S, R | cmovnl  | ~(SF ^ OF)       | Greater or equal (signed >=)    |
+| cmovl S, R  | cmovnge | SF ^ OF          | Less (signed <)                 |
+| cmovle S, R | cmovng  | (SF ^ OF)        | ZF Less or equal (signed <=)    |
+| cmova S, R  | cmovnbe | ~CF & ~ZF        | Above (unsigned >)              |
+| cmovae S, R | cmovnb  | ~CF              | Above or equal (Unsigned >=)    |
+| cmovb S, R  | cmovnae | CF               | Below (unsigned <)              |
+| cmovbe S, R | cmovna  | CF               | ZF Below or equal (unsigned <=) |
+
 ```
+v = test-expr ? then-expr : else-expr;
+
+# standard way
     if (!test-expr)
         goto false;
     v = then-expr;
@@ -387,9 +456,8 @@ v = test-expr ? then-expr : else-expr;
 false:
     v = else-expr;
 done:
-```
 
-```
+# conditional move way
 v = then-expr;
 ve = else-expr;
 t = test-expr;
@@ -399,6 +467,12 @@ if (!t) v = ve;
 * For the code based on a conditional move, both the then-expr and the
   else-expr are evaluated, with the final value chosen based on the evaluation
     test-expr.
+
+Not all conditional expressions can be compiled using conditional moves. Most
+significantly, the abstract code we have shown evaluates both then-expr and
+else-expr regardless of the test outcome. If one of those two expressions could
+  possibly generate an error condition or a side effect, this could lead to
+  invalid behavior.
 
 ### 3.6.7 Loops
 
@@ -410,7 +484,7 @@ loop:
     body-statements
     t = test-expr
     if (t)
-        goto loops
+        goto loop
 ```
 
 ```
@@ -504,7 +578,7 @@ test:
 #### For Loops (Guarded-do)
 
 ```
-init-expr;
+    init-expr;
     t = test-expr;
     if (!t)
         goto done;
@@ -656,3 +730,98 @@ rfact:
   popq    %rbx
   ret
 ```
+
+## 3.8 Array Allocation and Access
+
+### 3.8.1 Basic Priciples
+
+### 3.8.2 Pointer Arithmetic
+
+| Expression | Type  | Value            | Assembly code              |
+| ---------- | ----  | -----            | -------------              |
+| E          | int * | x_E              | movl %rdx,%rax             |
+| E[0]       | int   | M[x_E]           | movl (%rdx),%eax           |
+| E[i]       | int   | M[x_E + 4i]      | movl (%rdx,%rcx,4),%eax    |
+| &E[2]      | int * | x_E + 8          | leaq 8(%rdx),%rax          |
+| E+i-1      | int * | x_E + 4i − 4     | leaq -4(%rdx,%rcx,4),%rax  |
+| *(E+i-3)   | int   | M[x_E + 4i − 12] | movl -12(%rdx,%rcx,4),%eax |
+| &E[i]-E    | long  | i                | movq %rcx,%rax             |
+
+### 3.8.3 Nested Arrays
+
+```
+T D[R][C]
+
+&D[i][j] = x_D + L * (C * i + j)
+```
+
+### 3.8.4 Fixed-Size Arrays
+
+## 3.9 Heterogeneous Data Structures
+
+### 3.9.1 Structures
+
+```c
+struct rec {
+    int i;
+    int j;
+    int a[2];
+    int *p;
+};
+```
+
+```
+0      4      8             16            24
++------+------+------+------+------+------+
+|   i  |  j   | a[0] | a[1] |      p      |
++------+------+------+------+------+------+
+```
+
+```
+movl  (%rdi), %rax  # get r->i
+movl  %eax, 4(%rdi) # Store in r->j
+```
+
+To generate a pointer to an object within a structure, we can simply add the
+field's offset to the structure address. For example, we can generate the
+pointer `&(r->a[1])` by adding offset `8 + 4 * 1 = 12`. For pointer `r` in
+register `%rdi` and long integer variable i in register `%rsi`, we can generate
+the pointer value `&(r->a[i])` with the single instruction:
+
+```
+leaq  8(%rdi, %rsi, 4), %rax  # set %rax to &r->a[i]
+
+r->p = &r->a[r->i + r->j];
+Registers: r in %rdi
+----------------------------------------------------
+
+movl 4(%rdi), %eax       # Get r->j
+addl (%rdi), %eax        # Add r->i
+cltq                     # Extend to 8 bytes
+leaq (%rdi,%rax,4), %rax # Compute &r->a[r->i + r->j]
+movq %rax, 16(%rdi)      # Store in r->p
+```
+
+### 3.9.2 Unions
+
+```c
+union U3 {
+    char c;
+    int i[2];
+    double v;
+};
+```
+
+* For pointer p of type union U3 *, references p->c, p->i[0], and p->v would
+  all reference the beginning of the data structure.
+* Observe also that the overall size of a union equals the maximum size of any
+  of its fields.
+
+> One application is when we know in advance that the use of two different
+> fields in a data structure will be mutually exclusive. Then, declaring these
+> two fields as part of a union rather than a structure will reduce the total
+> space allocated.
+
+### 3.9.3 Data Alignment
+
+

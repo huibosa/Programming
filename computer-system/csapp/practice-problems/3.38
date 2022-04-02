@@ -1,0 +1,26 @@
+long P[M][N];
+long Q[N][M];
+
+long sum_element(long i, long j) {
+    return P[i][j] + Q[j][i];
+}
+
+
+sum_element:
+
+leaq   0(,%rdi,8)       %rdx
+subq   %rdi,            %rdx
+addq   %rsi,            %rdx    # rdx = 7i + j
+leaq   (%rsi,%rsi,4),   %rax
+addq   %rax,            %rdi    # rdi = 5 * j + i
+movq   Q(,%rdi,8),      %rax    # rax = Q + 8(5j + i)
+addq   P(,%rdx,8),      %rax    # rax += P + 8*(7i + j) + Q + 8(5j + i)
+ret
+
+
+Use your reverse engineering skills to determine the values of M and N based on
+this assembly code.
+-------------------------------------------------------------------------------
+
+M = 5;
+N = 7;

@@ -1,0 +1,33 @@
+### a in %rdi, b in %rsi, c in %rdx, d in %rcx
+
+switcher:
+  cmpq  $7, %rdi
+  ja    .L2                # if (a > 7); goto L2
+  jmp   *.L4(,%rdi,8)      # switch a
+  .section        .rodata
+.L7:
+  xorq  $15, %rsi
+  movq  %rsi, %rdx         # c = b ^ 15
+.L3:
+  leaq  112(%rdx), %rdi    # a = c + 112
+  jmp   .L6                # break
+.L5:
+  leaq  (%rdx, %rsi), %rdi # a = b + c
+  salq  $2, %rdi           # a <<= 2
+  jmp   .L6                # break
+.L2:
+  movq  %rsi, %rdi         # a = b
+.L6:
+  movq  %rdi, (%rcx)       # *dest = a
+  ret
+
+
+.L4:
+  .quad   .L3   # 0
+  .quad   .L2   # 1
+  .quad   .L5   # 2
+  .quad   .L2   # 3
+  .quad   .L6   # 4
+  .quad   .L7   # 5
+  .quad   .L2   # 6
+  .quad   .L5   # 7
