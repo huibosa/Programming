@@ -1,0 +1,35 @@
+struct {
+  int *a;
+  float b;
+  char c;
+  short d;
+  long e;
+  double f;
+  int g;
+  char *h;
+} rec;
+
+A. What are the byte offsets of all the fields in the structure?
+B. What is the total size of the structure?
+----------------------------------------------------------------
+a   b   c   d   e   f   g   h   Total   Alignment
+0   8   9   11  16  24  32  40  56      8
+
+
+C. Rearrange the fields of the structure to minimize wasted space, and then
+show the byte offsets and total size for the rearranged structure.
+---------------------------------------------------------------------------
+
+struct {
+  int *a;
+  char *b;
+  long c;
+  double d;
+  float e;
+  int f;
+  short g;
+  char h;
+} rec;
+
+a   b   c   d   e   f   g   h   Total   Alignment
+0   8   16  24  32  36  40  42  48      8

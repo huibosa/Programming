@@ -4,3 +4,10 @@ int tsub_ok(int x, int y) {
     int neg_over = x < 0 && y > 0 && diff >= 0;
     return !pos_over && !neg_over;
 }
+
+int tsub_ok(int x, int y) {
+  if (y == INT_MIN && x > 0) {
+    return 0;
+  }
+  return tadd_ok(x, -y);
+}

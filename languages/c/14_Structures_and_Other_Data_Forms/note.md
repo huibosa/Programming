@@ -946,12 +946,11 @@ the two below it.
   each of which can hold a variety of data types.
 
 ```c
-union hold
-{
-    int digit;
+union hold {
+    int    digit;
     double bigfl;
-    char letters;
-}
+    char   letters;
+};
 
 // defining tree union
 union hold fit;         // union variable of hold type
@@ -1021,32 +1020,28 @@ flnum = 3.02 * fit.bigfl;   // ERROR, ERROR, ERROR
 > different member for viewing the contents. (See listing 15.4).
 
 ```c
-struct owner
-{
+struct owner {
     char socsecurity[12];
-    ...
+    // ...
 };
 
-struct leasecompany
-{
+struct leasecompany {
     char name[40];
     char headquarters[40];
     ...
-}
+};
 
-union data
-{
+union data {
     struct owner owncar;
     struct leasecompany leasecar;
-}
+};
 
-struct car_data
-{
+struct car_data {
     char make[15];
     int status;     /* 0 = owned, 1 = leased */
     union data ownerinfo;
     ...
-}
+};
 ```
 
 ## Anonymous Unions (C11)

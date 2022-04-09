@@ -1,0 +1,12 @@
+dest_t cvt(src_t x) {
+    dest_t y = (dest_t) x;
+    return y;
+}
+
+Tx        Ty          Instruction(s)
+long      double      vcvtsi2sdq  %rdi, %xmm0, %xmm0
+double    int         vcvttsd2si  %xmm0, %eax
+double    float       vmovddup    %xmm0, %xmm0
+                      vcvtpd2psx  %xmm0, %xmm0
+long      float       vcvtsi2ssq  %rdi, %xmm0, %xmm0
+float     long        vcvttss2siq %xmm0, %rax

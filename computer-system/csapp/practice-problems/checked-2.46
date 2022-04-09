@@ -1,0 +1,24 @@
+x = 0.00011001100110011001100
+
+A. What is the binary representation of 0.1 − x?
+------------------------------------------------
+0.1 - x = 0.00000000000000000000000110011[0011]
+
+B. What is the approximate decimal value of 0.1 − x?
+----------------------------------------------------
+.000000095344148576259613037109375
+
+
+C. The clock starts at 0 when the system is first powered up and keeps counting
+up from there. In this case, the system had been running for around 100 hours.
+What was the difference between the actual time and the time computed by the
+software?
+-------------------------------------------------------------------------------
+3.4323893487453460693359375
+
+
+D. The system predicts where an incoming missile will appear based on its
+velocity and the time of the last radar detection. Given that a Scud travels at
+around 2,000 meters per second, how far off was its prediction?
+-------------------------------------------------------------------------
+2000 * 3.4323893487453460693359375 = 687
