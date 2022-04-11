@@ -1,4 +1,4 @@
-Note: x ^ y = (x | ~y) & (y | ~x)
+Note: x ^ y = (x & ~y) | (y & ~x)
 
 ```
 int bis(int x, int m);
