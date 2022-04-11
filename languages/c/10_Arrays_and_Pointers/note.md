@@ -591,13 +591,13 @@ and one `[ ]`).
 
 > `zippo[2][1]` equals to `*(*(zippo+2) + 1)`
 >
-> |Expression|Explanation|
-> |-|-|
-> |`zippo`|the address of the first two-int element|
-> |`zippo+2`|the address of the third two-int element|
-> |`*(zippo+2)`|the third element, a two-int array, the address of its first element, an `int`|
-> |`*(zippo+2) + 1`|the address of the second element of the two-int array, an int|
-> |`*(*(zippo+2) + 1)`|the value of the second `int` in the third row (`zippo[2][1]`)|
+> | Expression          | Explanation                                                                    |
+> | -                   | -                                                                              |
+> | `zippo`             | the address of the first two-int element                                       |
+> | `zippo+2`           | the address of the third two-int element                                       |
+> | `*(zippo+2)`        | the third element, a two-int array, the address of its first element, an `int` |
+> | `*(zippo+2) + 1`    | the address of the second element of the two-int array, an int                 |
+> | `*(*(zippo+2) + 1)` | the value of the second `int` in the third row (`zippo[2][1]`)                 |
 > 
 > So use the array notation to extract the value of a two-dimensional array
 rather than pointer notation.
