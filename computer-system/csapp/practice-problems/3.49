@@ -1,0 +1,46 @@
+A. Explain, in mathematical terms, the logic in the computation of s2 on lines
+5–7. Hint: Think about the bit-level representation of −16 and its effect in
+the andq instruction of line 6.
+
+leaq  22(,%rdi,8), %rax
+andq  $-16, %rax
+subq  %rax, %rsp                  Allocate space for array p (%rsp = s_2)
+
+------------------------------------------------------------------------------
+The leaq instruction of line 5 computes the value 8n + 22, which is then
+rounded down to the nearest multiple of 16 by the andq instruction of line 6.
+The resulting value will be 8n + 8 when n is odd and 8n + 16 when n is even,
+and this value is subtracted from s1 to give s2.
+
+
+
+
+B. Explain, in mathematical terms, the logic in the computation of p on lines
+8–10. Hint: You may want to refer to the discussion on division by powers
+of 2 in Section 2.3.7.
+
+leaq  7(%rsp), %rax
+shrq  $3, %rax
+leaq  0(,%rax,8), %r8             Set %r8 to &p[0]
+-----------------------------------------------------------------------------
+The three instructions in this sequence round s2 up to the nearest multiple
+of 8. They make use of the combination of biasing and shifting that we saw
+for dividing by a power of 2 in Section 2.3.7.
+
+
+
+
+For the following values of n and s1, trace the execution of the code to
+determine what the resulting values would be for s2, p, e1, and e2.
+------------------------------------------------------------------------
+n       s1      s2      p       e1      e2
+5       2,065   2017    2024    1       7   
+6       2,064   16536   2000    16      0
+
+
+D. What alignment properties does this code guarantee for the values of s2
+and p?
+-----------------------------------------------------------------------------
+We can see that s2 is computed in a way that preserves whatever offset s1 has
+with the nearest multiple of 16. We can also see that p will be aligned on a
+multiple of 8, as is recommended for an array of 8-byte elements.

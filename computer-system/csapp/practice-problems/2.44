@@ -1,0 +1,72 @@
+int32_t x = foo(); /* Arbitrary value */
+int32_t y = bar(); /* Arbitrary value */
+
+uint32_t ux = x;
+uint32_t uy = y;
+
+For each of the following C expressions, either
+(1) argue that it is true (evaluates to 1) for all values of x and y
+(2) give values of x and y for which it is false (evaluates to 0):
+
+A. (x > 0) || (x-1 < 0)                             0
+-----------------------------------------------------
+x         (x > 0)   (x - 1 < 0)
+Tmin      0         0
+
+
+
+B. (x & 7) != 7 || (x<<29 < 0)                      1
+-----------------------------------------------------
+x      (x&7) != 7          (x<<29 < 0)              
+000    1                    0
+001    1                    0
+010    1                    0
+011    1                    0
+100    1                    1
+101    1                    1
+110    1                    1
+111    0                    1
+
+
+C. (x * x) >= 0                                     1
+-----------------------------------------------------
+x           (x * x)
+65535       -131071
+
+
+
+D. x < 0 || -x <= 0                                 1
+-----------------------------------------------------
+x       (x < 0)     (-x <= 0)
+Tmin    1           1
+0       0           1
+Tmax    0           1
+
+
+E. x > 0 || -x >= 0                                 0
+-----------------------------------------------------
+x       (x > 0)       (-x >= 0)
+Tmin    0             0
+
+True. If x is nonnegative, then -x is nonpositive.
+
+
+F. x+y == uy+ux                                     1
+-----------------------------------------------------
+x      y     ux      uy     (x + y)       (ux + uy)
+Tmin   Tmin  0       0      0             0
+
+True. Two’s-complement and unsigned addition have the same bit-level be
+havior, and they are commutative.
+
+
+G. x*~y + uy*ux == -x                               0
+-----------------------------------------------------
+x     y       (x*~y)          (uy*ux)       -x
+Tmin  Tmin    Tmin*Tmax=0     0 * 0         Tmin
+
+True. ~y equals -y-1. uy*ux equals x*y. Thus, the left-hand side is equivalent
+to x*-y-x+x*y.
+
+x * (-y - 1) + uy * ux
+x*-y - x + x * y

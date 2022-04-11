@@ -1,71 +1,78 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 #define LEN 30
 
-char * s_gets(char * st, int n);
+char* s_gets(char* st, int n);
 
-enum spectrum {red, orange, yellow, green, blue, violet};
-const char * colors[] = {
-    "red", "orange", "yellow", "green", "blue", "violet"
-};
+enum spectrum { red,
+                orange,
+                yellow,
+                green,
+                blue,
+                violet };
+const char* colors[] = {
+    "red", "orange", "yellow", "green", "blue", "violet"};
 
-int main(void)
-{
-    char choice[LEN];
-    enum spectrum color;
-    bool color_is_found = false;
+int main(void) {
+  char          choice[LEN];
+  enum spectrum color;
+  bool          color_is_found = false;
 
-    puts("Enter a color (empty line to quit):");
-    while (s_gets(choice, LEN) != NULL && choice[0] != '\0') {
-        for (color = red; color <= violet; color++) {
-            if (strcmp(choice, colors[color]) == 0) {
-                color_is_found = true;
-                break;
-            }
-        }
-        if (color_is_found)
-            switch (color)
-            {
-                case red    : puts("Roses are red.");
-                    break;
-                case orange : puts("Poppies are orange.");
-                    break;
-                case yellow : puts("SUnflower are yellow.");
-                    break;
-                case green  : puts("Grass is green.");
-                    break;
-                case blue   : puts("Bluebells are blue.");
-                    break;
-                case violet : puts("Violets are violet.");
-                    break;
-            }
-        else
-            printf("I don't know about the color %s.\n", choice);
-        color_is_found = false;
-        puts("Next color, please (empty line to quit):");
+  puts("Enter a color (empty line to quit):");
+  while (s_gets(choice, LEN) != NULL && choice[0] != '\0') {
+    for (color = red; color <= violet; color++) {
+      if (strcmp(choice, colors[color]) == 0) {
+        color_is_found = true;
+        break;
+      }
     }
-    puts("Goodbye!");
+    if (color_is_found)
+      switch (color) {
+      case red:
+        puts("Roses are red.");
+        break;
+      case orange:
+        puts("Poppies are orange.");
+        break;
+      case yellow:
+        puts("SUnflower are yellow.");
+        break;
+      case green:
+        puts("Grass is green.");
+        break;
+      case blue:
+        puts("Bluebells are blue.");
+        break;
+      case violet:
+        puts("Violets are violet.");
+        break;
+      }
+    else
+      printf("I don't know about the color %s.\n", choice);
+    color_is_found = false;
+    puts("Next color, please (empty line to quit):");
+  }
+  puts("Goodbye!");
 
-    return 0;
+  return 0;
 }
 
-char * s_gets(char * st, int n)
-{
-    char * retval;
-    char * find;
+char* s_gets(char* st, int n) {
+  char* retval;
+  char* find;
 
-    retval = fgets(st, n, stdin);
+  retval = fgets(st, n, stdin);
 
-    if (retval) {
-        find = strchr(st, '\n');
-        if (find)
-            *find = '\0';
-        else
-            while (getchar() != '\n')
-                continue;
-    }
+  if (retval) {
+    find = strchr(st, '\n');
+    if (find)
+      *find = '\0';
+    else
+      while (getchar() != '\n')
+        continue;
+  }
 
-    return retval;
+  return retval;
 }

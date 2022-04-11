@@ -17,27 +17,24 @@
 
 ## 3.4 Accessing Information
 
-```
-rax eax ax al         ; return value
-rbx ebx bx bl         ; callee saved
-rcx ecx cx cl         ; 4th argument
-rdx edx dx dl         ; 3rd argument
-
-rsi esi si sil        ; 2st argument
-rdi edi di dil        ; 1st argument
-
-rbp ebp bp bpl        ; callee saved
-rsp esp sp spl        ; stack pointer
-
-r8  r8d r8w r8b       ; 5th argument
-r9  r9d r9w r9b       ; 6th argument
-r10 r10d r10w r10b    ; caller saved
-r11 r11d r11w r11b    ; caller saved
-r12 r12d r12w r12b    ; callee saved
-r13 r13d r13w r13b    ; callee saved
-r14 r14d r14w r14b    ; callee saved
-r15 r15d r15w r15b    ; callee saved
-```
+| 8-byte register | bytes 0-3 | bytes 0-1 | byte 0 | comment       |
+| --------------- | --------- | --------- | ------ | -------       |
+| rax             | eax       | ax        | al     | return value  |
+| rbx             | ebx       | bx        | bl     | callee saved  |
+| rcx             | ecx       | cx        | cl     | 4th argument  |
+| rdx             | edx       | dx        | dl     | 3rd argument  |
+| rsi             | esi       | si        | sil    | 2st argument  |
+| rdi             | edi       | di        | dil    | 1st argument  |
+| rbp             | ebp       | bp        | bpl    | callee saved  |
+| rsp             | esp       | sp        | spl    | stack pointer |
+| r8              | r8d       | r8w       | r8b    | 5th argument  |
+| r9              | r9d       | r9w       | r9b    | 6th argument  |
+| r10             | r10d      | r10w      | r10b   | caller saved  |
+| r11             | r11d      | r11w      | r11b   | caller saved  |
+| r12             | r12d      | r12w      | r12b   | callee saved  |
+| r13             | r13d      | r13w      | r13b   | callee saved  |
+| r14             | r14d      | r14w      | r14b   | callee saved  |
+| r15             | r15d      | r15w      | r15b   | callee saved  |
 
 > Those that generate 1- or 2-byte quantities leave the remaining bytes
 > unchanged. Those that generate 4- byte quantities set the upper 4 bytes of
@@ -55,18 +52,10 @@ Three different operand types:
 
 ### 3.4.2 Data Movement Instructions
 
-```
-movl $0x4050, %eax        immediate--register   4 bytes
-movw %bp, %sp             register--register    2 bytes
-movb (%rdi, %rcx), %al    memory--register      1 bytes
-movb $-17, (%esp)         immediate--memory     1 bytes
-movq %rax -12(%rbp)       register--memory      8 bytes
-```
-
-> x86-64 imposes the restriction that a move instruction cannot have both
-> operands refer to memory locations. Copying a value from one memory location
-> to another requires two instructions—the first to load the source value into
-> a register, and the second to write this register value to the des- tination.
+x86-64 imposes the restriction that a move instruction cannot have both
+operands refer to memory locations. Copying a value from one memory location
+to another requires two instructions—the first to load the source value into
+a register, and the second to write this register value to the destination.
 
 ```
 movabsq $0x0011223344556677, %rax      ; %rax = 0011223344556677
@@ -92,7 +81,7 @@ movzbl
 movzbq
 movzwl
 movzwq
-; movzlq can be implemented with movl
+# movzlq can be implemented with movl
 
 movsbw
 movsbl
@@ -100,7 +89,7 @@ movsbq
 movswl
 movswq
 movslq
-cltq      ; sign-extend %eax to %rax
+cltq      # sign-extend %eax to %rax
 ```
 
 * Instructions in the `MOVZ` class fill out the remaining bytes of the
@@ -113,31 +102,27 @@ cltq      ; sign-extend %eax to %rax
 
 ### 3.4.3 Pushing and Popping Stack Data
 
-The stack pointer %rsp holds the address of the top stack element.
+The stack pointer `%rsp` holds the address of the top stack element.
 
 Pushing a quad word value onto the stack involves first decrementing the stack
 pointer by 8 and then writing the value at the new top-of-stack address.
 
-`pushq %rbp`:
 
 ```
-subq $8, %rsp       ; decrement stack pointer
-movq %rbp, (%rsp)   ; store %rbp on stack
+# pushq %rbp is equivalent to:
+subq $8, %rsp       # decrement stack pointer
+movq %rbp, (%rsp)   # store %rbp on stack
 ```
 
 Popping a quad word involves reading from the top-of-stack location and then
 incrementing the stack pointer by 8. 
 
-`popq %rax`:
 
 ```
+popq %rax is equivalent to:
 movq (%rsp), %rax
 addq $8, %rsp
 ```
-
-Since the stack is contained in the same memory as the program code and other
-forms of program data, programs can access arbitrary positions within the stack
-using the standard memory addressing methods.
 
 > Local variables such as x are often kept in registers rather than stored in
 > memory locations. 
@@ -812,16 +797,294 @@ union U3 {
 };
 ```
 
-* For pointer p of type union U3 *, references p->c, p->i[0], and p->v would
-  all reference the beginning of the data structure.
-* Observe also that the overall size of a union equals the maximum size of any
+* For pointer `p` of type `union U3 *`, references `p->c`, `p->i[0]`, and
+  `p->v` would all reference the beginning of the data structure.
+* Observe also that the overall size of a union equals the *maximum size* of any
   of its fields.
 
-> One application is when we know in advance that the use of two different
-> fields in a data structure will be mutually exclusive. Then, declaring these
-> two fields as part of a union rather than a structure will reduce the total
-> space allocated.
+One application is when we know in advance that the use of two different fields
+in a data structure will be mutually exclusive. Then, declaring these two
+fields as part of a union rather than a structure will reduce the total space
+allocated.
+
+Suppose we want to implement a binary tree data structure where each leaf node
+has two double data values and each internal node has pointers to two children
+but no data.
+
+```c
+struct node_s {
+    struct node_s *left;
+    struct node_s *right;
+    double data[2];
+};    // requires 32 bytes
+
+union node_u {
+    struct {
+        union node_u *left;
+        union node_u *right;
+    } internal;
+    double data[2];
+};
+```
+
+* Then every node will require just 16 bytes.
+* If n is a pointer to a node of type union `node_u *`, we would reference the
+  data of a leaf node as `n->data[0]` and `n->data[1]` and the children of an
+  internal node as `n->internal.left` and `n->internal.right`.
+
+There is no way to determine whether a given node is a leaf or an internal
+node. A common method is to introduce an enumer- ated type defining the
+different possible choices for the union, and then create a structure
+containing a tag field and the union:
+
+```c
+typedef enum {
+  N_LEAF,
+  N_INTERNAL
+} nodetype_t;
+
+struct node_t {
+  nodetype_t type;
+  union {
+    struct {
+      struct node_t* left;
+      struct node_t* right;
+    } internal;
+    double data[2];
+  } info;
+};    // requires 24 bytes
+```
+
+Unions can also be used to access the bit patterns of different data types.
+
+```c
+unsigned long u = (unsigned long) d
+```
+
+* Value `u` will be an integer representation of `d`. Except for the case where
+  `d` is `0.0`, the bit representation of `u` will be very different from that
+  of `d`.
+
+```c
+unsigned long double2bits(double d) {
+  union {
+    double d;
+    unsigned long u;
+  } temp;
+  temp.d = d;
+  return return temp.u;
+}
+```
+
+* The result will be that u will have the same bit representation as d,
+  including fields for the sign bit
+
+
+```c
+double uu2double(unsigned word0, unsigned word1) {
+  union {
+    double d;
+    unsigned u[2];
+  } temp;
+  temp.u[0] = word0;
+  temp.u[1] = word1;
+  return temp.d;
+}
+```
+
+On a little-endian machine, such as an x86-64 processor, argument `word0` will
+become the low-order 4 bytes of `d`, while `word1` will become the high-order 4
+bytes. On a big-endian machine, the role of the two arguments will be reversed.
 
 ### 3.9.3 Data Alignment
 
+For code involving structures, the compiler may need to insert gaps in the
+field allocation to ensure that each structure element satisfies its alignment
+requirement. The structure will then have some required alignment for its
+starting address.
 
+## 3.10 Combining Control and Data in Machine-Level Programs
+
+### 3.10.1 Understanding Pointers
+
+Casting from one type of pointer to another changes its type but not its value.
+One effect of casting is to change any scaling of pointer arithmetic. So, for
+example, if `p` is a pointer of type `char *` having value `p`, then the
+expression `(int *) p+7` computes `p + 28`, while `(int *) (p+7)` computes `p +
+7`. (Recall that casting has higher precedence than addition.)
+
+```c
+int fun(int x, int* p);
+int (*fp)(int x, int* p);
+
+fp = fun;
+
+int y = 1;
+int result = fp(3, &y);
+```
+
+* The value of a function pointer is the address of the first instruction in
+  the machine-code representation of the function.
+
+Unfortunately, a number of commonly used library functions, including `strcpy`,
+`strcat`, and `sprintf`, have the property that they can generate a byte sequence
+without being given any indication of the size of the destination buffer [97]
+
+Typically, the program is fed with a string that contains the byte encoding of some
+executable code, called the *exploit code*, plus some extra bytes that overwrite the
+return address with a pointer to the exploit code. The effect of executing the ret
+instruction is then to jump to the exploit code.
+
+### 3.10.4 Thwarting Buffer Overflow Attacks
+
+#### Stack Randomnizaiton
+
+#### Stack Corruption Detection
+
+stack protector: store a special canary value in the stack frame between any
+local buffer and the rest of the stack state
+
+```
+echo:
+  $24, %rsp                 # Allocate 24 bytes on stack
+  movq %fs:40, %rax         # Retrieve canary
+  movq %rax, 8(%rsp)        # Store on stack
+  xorl %eax, %eax           # Zero out register
+  movq %rsp, %rdi           # Compute buf as %rsp
+  call gets                 # Call gets
+  movq %rsp, %rdi           # Compute buf as %rsp
+  call puts                 # Call puts
+  movq (%rsp), %rax         # Retrieve canary
+  xorq %fs:40, %rax         # Compare to stored value
+  je .L9                    # If =, goto ok
+  call __stack_chk_fail     # Stack corrupted!
+.L9:                        # ok:
+  addq $24, %rsp            # Deallocate stack space
+  ret
+```
+
+* The instruction argument `%fs:40` is an indication that the canary value is
+  read from memory using segmented addressing
+* By storing the canary in a special segment, it can be marked as "read only,"
+  so that an attacker cannot overwrite the stored canary value.
+* GCC only inserts it when there is a local buffer of type char in the
+  function.
+
+#### Limiting Executable Code Regions
+
+One method is to limit which memory regions hold executable code. In typical
+programs, only the portion of memory holding the code generated by the compiler
+need be executable. The other portions can be restricted to allow just reading
+and writing.
+
+The hardware supports different forms of `memory protection`, indicating the
+forms of access allowed by both user programs and the operating system kernel.
+Many systems allow control over three forms of access:
+
+* read (reading data from memory),
+* write (storing data into memory),
+* and execute (treating the memory contents as machine-level code).
+
+### 3.10.5 Supporting Variable-Size Stack Frames
+
+```c
+long vframe(long n, long idx, long *q) {
+  long i;
+  long *p[n];
+  p[0] = &i;
+  for (i = 1; i < n; i++)
+    p[i] = q;
+  return *p[idx];
+}
+```
+
+```
+vframe:
+  pushq %rbp                        Save old %rbp
+  movq  %rsp, %rbp                  Set frame pointer
+  subq  $16, %rsp                   Allocate space for i (%rsp = s_1)
+  leaq  22(,%rdi,8), %rax
+  andq  $-16, %rax
+  subq  %rax, %rsp                  Allocate space for array p (%rsp = s_2)
+  leaq  7(%rsp), %rax
+  shrq  $3, %rax
+  leaq  0(,%rax,8), %r8             Set %r8 to &p[0]
+  movq  %r8, %rcx                   Set %rcx to &p[0] (%rcx = p)
+
+# . . .
+# Code for initialization loop
+# i in %rax and on stack, n in %rdi, p in %rcx, q in %rdx
+
+.L3:                              loop:
+  movq  %rdx, (%rcx,%rax,8)         Set p[i] to q
+  addq  $1, %rax                    Increment i
+  movq  %rax, -8(%rbp)              Store i on stack
+.L2:
+  movq  -8(%rbp), %rax              Retrieve i from stack
+  cmpq  %rdi, %rax                  Compare i:n
+  jl    .L3                         If <, goto loop
+
+# . . .
+# Code for function exit
+
+  leave                             Restore %rbp and %rsp
+  ret                               Return
+```
+
+Suffice it to say that by the time the program reaches line 11, it has
+
+1. allocated at least 8n bytes on the stack and
+2. positioned array p within the allocated region such that at least 8n bytes
+   are available for its use.
+
+The frame pointer is restored to its previous value using the leave instruction
+
+```
+movq %rbp, %rsp       Set stack pointer to beginning of frame
+popq %rbp             Restore saved %rbp and set stack ptr
+                      to end of caller’s frame
+```
+
+## 3.11 Floating-Point Code
+
+* SIMD: Single instruction, multiple data
+* SSE:  Streaming SIMD extensions
+* AVX:  Advanced vector extensions
+
+Each of these extensions manages data in sets of registers, referred to as "MM"
+registers for MMX, "XMM" for SSE, and "YMM" for AVX, ranging from 64 bits for
+MM registers, to 128 for XMM, to 256 for YMM.
+
+| Instruction | Source | Destination | Description                           |
+| ----------- | ------ | ----------- | -----------                           |
+| vmovss      | M32    | X           | Move single precision                 |
+| vmovss      | X      | M32         | Move single precision                 |
+| vmovsd      | M64    | X           | Move double precision                 |
+| vmovsd      | X      | M64         | Move double precision                 |
+| vmovaps     | X      | X           | Move aligned, packed single precision |
+| vmovapd     | X      | X           | Move aligned, packed double precision |
+
+| Instruction | Source | Destination | Description                                                   |
+| ----------- | ------ | ----------- | -----------                                                   |
+| vcvttss2si  | X/M32  | R32         | Convert with truncation single precision to integer           |
+| vcvttsd2si  | X/M64  | R32         | Convert with truncation double precision to integer           |
+| vcvttss2siq | X/M32  | R64         | Convert with truncation single precision to quad word integer |
+| vcvttsd2siq | X/M64  | R64         | Convert with truncation double precision to quad word integer |
+
+| Instruction | Source 1 | Source 2 | Destination | Description                                   |
+| vcvtsi2ss   | M32/R32  | X        | X           | Convert integer to single precision           |
+| vcvtsi2sd   | M32/R32  | X        | X           | Convert integer to double precision           |
+| vcvtsi2ssq  | M64/R64  | X        | X           | Convert quad word integer to single precision |
+| vcvtsi2sdq  | M64/R64  | X        | X           | Convert quad word integer to double precision |
+
+```
+# Conversion from single to double precision
+vunpcklps %xmm0, %xmm0, %xmm0   # Replicate first vector element
+vcvtps2pd %xmm0, %xmm0          # Convert two vector elements to double
+```
+
+```
+# Conversion from double to single precision
+vmovddup    %xmm0, %xmm0        # Replicate first vector element
+vcvtpd2psx  %xmm0, %xmm0        # Convert two vector elements to single
+```
