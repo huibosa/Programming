@@ -154,9 +154,7 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-
-  return 2;
-
+  return 1 << 31;
 }
 //2
 /*
@@ -191,7 +189,11 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+  int mask = 0xaa;
+  mask = mask + (mask << 8);  // 0xaaaa
+  mask = mask + (mask << 16); // 0xaaaaaaaa
+
+  return !((x & mask) + ~mask + 1);
 }
 /* 
  * negate - return -x 
