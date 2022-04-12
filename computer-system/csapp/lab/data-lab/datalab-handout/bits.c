@@ -167,7 +167,20 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  // -1 and tmax has the property that
+  // tmax + 1 = -tmax - 1 = tmin
+  // -1 + 1 = - (-1) - 1 = 0
+
+  int neg1Flag = !(x + 1); // check if x is -1
+
+  int var1       = x + 1;               // tmax + 1
+  int var2       = ~x;                  // -tmax - 1
+  int signFlag   = !(var1 + ~var2 + 1); // check var1 = var2
+
+  return neg1Flag ^ signFlag;
+  //        0           1         1
+  //        1           1         0
+  //        0           0         0
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
