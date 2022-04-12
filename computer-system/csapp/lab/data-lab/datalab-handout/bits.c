@@ -171,14 +171,11 @@ int isTmax(int x) {
 
   int neg1Flag = !(x + 1); // check if x is -1
 
-  int var1       = x + 1;               // tmax + 1
-  int var2       = ~x;                  // -tmax - 1
-  int signFlag   = !(var1 + ~var2 + 1); // check var1 = var2
+  int var1     = x + 1;          // tmax + 1
+  int var2     = ~x;             // -tmax - 1
+  int signFlag = !(var1 ^ var2); // check var1 == var2
 
-  return neg1Flag ^ signFlag;
-  //        0           1         1
-  //        1           1         0
-  //        0           0         0
+  return neg1Flag ^ signFlag; // check if two flag not both set
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -193,7 +190,7 @@ int allOddBits(int x) {
   mask = mask + (mask << 8);  // 0xaaaa
   mask = mask + (mask << 16); // 0xaaaaaaaa
 
-  return !((x & mask) + ~mask + 1);
+  return !((x & mask) ^ mask);
 }
 /* 
  * negate - return -x 
