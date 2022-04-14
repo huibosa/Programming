@@ -335,3 +335,159 @@ x/2^k = (x < 0 ? x + (1<<k)-1 : x) >> k
 ## 2.4 Floating Point
 
 ### 2.4.1 Fractional Binary Numbers
+
+### 2.4.2 IEEE Floating-Point Representation
+
+```
+Single precision:
+31  30                23 22                                                  0 
++---+-------------------+----------------------------------------------------+
+| s |        exp        |                      frac                          |
++---+-------------------+----------------------------------------------------+
+```
+
+```
+Double precision:
+63  62                    52 51                                              0 
++---+-----------------------+------------------------------------------------+
+| s |          exp          |                    frac                        |
++---+-----------------------+------------------------------------------------+
+```
+
+#### Case 1: Normalized Values
+
+```
+Normalized:
++---+-----------------------+------------------------------------------------+
+| s |    !=0 and != 255     |                       f                        |
++---+-----------------------+------------------------------------------------+
+```
+
+```
+Denormalized:
++---+-----------------------+------------------------------------------------+
+| s |    0 0 0 0 0 0 0 0    |                       f                        |
++---+-----------------------+------------------------------------------------+
+```
+
+```
+Infinity:
++---+-----------------------+------------------------------------------------+
+| s |    1 1 1 1 1 1 1 1    | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  |
++---+-----------------------+------------------------------------------------+
+```
+
+```
+NaN:
++---+-----------------------+------------------------------------------------+
+| s |    1 1 1 1 1 1 1 1    |                    != 0                        |
++---+-----------------------+------------------------------------------------+
+```
+
+### 2.4.3 Example Numbers
+
+> the IEEE format was designed so that floating-point numbers could be sorted
+> using an integer sorting routine. A minor difficulty occurs when dealing with
+> negative numbers, since they have a leading 1 and occur in descending order,
+> but this can be overcome without requiring floating-point operations to
+> perform comparisons
+
+### 2.4.4 Rounding
+
+| Mode              | $1.40 | $1.60 | $1.50 | $2.50 | $–1.50 |
+| ----------------- | ----- | ----- | ----- | ----- | ------ |
+| Round-to-even     | $1    | $2    | $2    | $2    | $–2    |
+| Round-toward-zero | $1    | $1    | $1    | $2    | $–1    |
+| Round-down        | $1    | $1    | $1    | $2    | $–2    |
+| Round-up          | $2    | $2    | $2    | $3    | $–1    |
+
+Rounding toward even numbers avoids this statistical bias in most real-life
+situations. It will round upward about 50% of the time and round downward about
+50% of the time.
+
+> Prefer to have the least significant bit equal to zero
+
+#### Limit
+
+```
+                         Single precision          Double precision
+                         ----------------          --------------------------
+        exp      frac    Value         Decimal     Value          Decimal
+        ---------------------------------------------------------------------
+Zero    00...00  0...00  0             0.0         0              0.0
+De_min  00...00  0...01  2^-23*2^-126  1.4*10^-45  2^-52*2^-1022  4.9*10^-324
+De_max  00...00  1...11  (1-e)*2^-126  1.2*10^-38  (1-e)*2^-1022  2.2*10^-308
+No_min  00...01  0...00  1*2^-126      1.2*10^-38  1*2^-1022      2.2*10^-308
+One     01...11  0...00  1*2^0         1.0         1*2^0          1.0
+No_max  11...10  1...11  (2-e)*2^127   3.4*10^38   (2-e)*2^1023   1.8*10^308
+```
+
+### 2.4.5 Floating-Point Operations
+
+```
+1 / -0 == -inf
+1 / +0 == +inf
+```
+
+* Addition over real numbers also forms an *abelian group*,
+* The operation is commutative, with `x +f y` = `y +f x` for all values of `x`
+  and `y`.
+* As with an abelian group, most values have inverses under floating-point
+  addition, that is, `x +f −x = 0`. The exceptions are infinities (since `+inf
+  − inf = NaN`), and `NaN`s, since `NaN +f x = NaN` for any `x`.
+
+#### No associative
+
+On the other hand, it is not associative, due to the possibility of overflow or
+the loss of precision due to rounding.
+
+```
+(3.14 + 1e10) - 1e10   // 0.0
+3.14 + (1e10 - 1e10)   // 0.0
+
+(1e20 * 1e20) * 1e20   // +inf
+1e20 * (1e20 * -1e20)  // 1e20
+```
+
+#### No distribution
+
+```
+1e20 * (1e20 - 1e20)       // 0.0
+1e20 * 1e20 - 1e20 * 1e20  // NaN
+```
+
+#### Monotonicity
+
+floating-point *addition and multiplication* satisfies the following
+monotonicity property:
+
+```
+if a >= b and a, b, x != NaN:
+    float_add(x, a) >= float_add(x, b)
+
+if a >= b and a, b, x != NaN:
+    float_mult(x, a) >= float_mult(x, b)
+
+if a != NaN
+    float_mult(a, a) >= 0
+```
+
+None of these monotonicity properties hold for unsigned or two’s-
+complement multiplication.
+
+### 2.4.6 Floating Point in C
+
+* From `int` to `float`, the number cannot overflow, but it may be rounded.
+* From `int` or `float` to `double`, the exact numeric value can be preserved
+  be cause double has both greater range (i.e., the range of representable
+  values), as well as greater precision (i.e., the number of significant bits).
+* From `double` to `float`, the value can overflow to `+∞` or `−∞,` since the
+  range is smaller. Otherwise, it may be rounded, because the precision is
+  smaller.
+* From `float` or `double` to `int`, the value will be *rounded toward zero*.
+  Furthermore, the value may overflow. The C standards do not specify a fixed
+  result for this case. Intel-compatible microprocessors designate the bit
+  pattern `[10...00]` (`TMinw` for word size w) as an integer indefinite value.
+  Any conversion from floating point to integer that cannot assign a reasonable
+  integer approximation yields this value. Thus, the expression (int) +1e10
+  yields -21483648, generating a negative value from a positive one.
