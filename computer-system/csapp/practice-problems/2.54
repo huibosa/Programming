@@ -1,5 +1,42 @@
+int x;
+float f;
+double d;
+
 A. x == (int)(double) x           1
-B. x == (int)(float) x            x = TMAX
-C. d == (double)(float) d         
-D. f == (float)(double) f
-E. f == -(-f)
+-----------------------------------
+
+
+B. x == (int)(float) x            x
+-----------------------------------
+x = Tmax
+
+
+C. d == (double)(float) d         0
+-----------------------------------
+d = 1e40
+
+
+
+D. f == (float)(double) f         1
+-----------------------------------
+
+
+E. f == -(-f)                     1
+-----------------------------------
+Yes, since a floating-point number is negated by simply inverting its sign
+bit.
+
+F. 1.0/2 == 1/2.0                 1
+-----------------------------------
+Yes, the numerators and denominators will both be converted to floating-
+point representations before the division is performed.
+
+G. d*d >= 0.0                     1
+-----------------------------------
+
+
+H. (f+d)-f == d                   0
+-----------------------------------
+No. For example, when f is 1.0e20 and d is 1.0, the expression f+d will be
+rounded to 1.0e20, and so the expression on the left-hand side will evaluate
+to 0.0, while the right-hand side will be 1.0.
