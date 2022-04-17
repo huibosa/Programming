@@ -491,3 +491,12 @@ complement multiplication.
   Any conversion from floating point to integer that cannot assign a reasonable
   integer approximation yields this value. Thus, the expression (int) +1e10
   yields -21483648, generating a negative value from a positive one.
+
+## Summary
+
+* Floating-point values can also underflow, when they are so close to 0.0 that
+  they are changed to zero.
+* C expression `(1<<k)-1` can generate a bit pattern of the form
+  `[0...01...1]`, consisting `w-k` zeros folowed by `k` ones.
+* Floating-point representations approximate real numbers by encoding numbers
+  of the form `x × 2y`. 

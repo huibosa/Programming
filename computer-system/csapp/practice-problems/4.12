@@ -1,0 +1,17 @@
+word Median3 = [
+    A <= B && B <= C : B;   # ABC
+    C <= B && B <= A : B;   # CBA
+    B <= A && A <= C : A;   # BAC
+    C <= A && A <= B : A;   # CAB
+    1                : C;   # ACB, BCA
+]
+
+
+CBA
+ABC
+
+ACB
+BCA
+
+CAB
+BAC

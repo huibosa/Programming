@@ -1,0 +1,11 @@
+Word Min3 = [
+  A <= B && A <= C : A;
+  A <= C           : B;   # A > B or A > C
+  1                : C;
+]
+
+Word Min3 = [
+  A <= B && A <= C : A;
+  B <= C           : B;   # A > B or A > C
+  1                : C;
+]

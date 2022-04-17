@@ -696,7 +696,7 @@ P:
   ret
 ```
 
-### Reursive Procedures
+### Recursive Procedures
 
 ```
 rfact:

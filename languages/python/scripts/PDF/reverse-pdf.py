@@ -12,10 +12,10 @@ def reverse_pages(pdf_path):
     for page in reversed(pdf_reader.pages):
         pdf_writer.addPage(page)
 
-    with open(sys.argv[1], "wb") as fh:
+    with open(pdf_path, "wb") as fh:
         pdf_writer.write(fh)
 
 
 if __name__ == "__main__":
-    path = sys.argv[1]
-    reverse_pages(path)
+    for path in sys.argv[1:]:
+        reverse_pages(path)

@@ -1,0 +1,13 @@
+# long sum(long* start, long count);
+sum:
+  xorq %rax, %rax         # sum = 0
+  andq %rax, %rax         # Set CC
+  jmp test
+loop:
+  mrmovq (%rdi), %r10
+  addq r10, %rax
+  iaddq $8, %rdi
+  iaddq $-1, %rsi
+test:
+  jne loop
+  ret

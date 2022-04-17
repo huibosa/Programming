@@ -14,10 +14,10 @@ def rotate_pages(pdf_path):
         page_1 = pdf_reader.getPage(page).rotateClockwise(180)
         pdf_writer.addPage(page_1)
 
-    with open(sys.argv[1], "wb") as fh:
+    with open(pdf_path, "wb") as fh:
         pdf_writer.write(fh)
 
 
 if __name__ == "__main__":
-    path = sys.argv[1]
-    rotate_pages(path)
+    for path in sys.argv[1:]:
+        rotate_pages(path)

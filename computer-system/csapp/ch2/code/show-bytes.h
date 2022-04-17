@@ -3,7 +3,7 @@
 
 typedef unsigned char* byte_pointer;
 
-void showBytes(byte_pointer start, size_t len);
-void showInt(int x);
-void showFloat(float x);
-void showPointer(void* x);
+void show_bytes(byte_pointer start, size_t len);
+void show_int(int x);
+void show_float(float x);
+void show_pointer(void* x);
