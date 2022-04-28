@@ -1,0 +1,13 @@
+  .text
+.globl pushtest
+pushtest:
+  movq %rsp, %rax       # Copy stack pointer
+  pushq %rsp            # Push stack pointer
+  popq %rdx             # Pop it back
+  subq %rdx, %rax       # Return 0 or 4
+  ret
+
+
+The subq instruction in this test compares the starting value of %rsp to the
+value pushed onto the stack. The fact that the result of this subtraction is zero
+implies that the old value of %rsp gets pushed.

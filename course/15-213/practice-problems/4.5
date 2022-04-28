@@ -1,0 +1,35 @@
+long absSum(long *start, long count) {
+  long sum = 0;
+  while (count) {
+    long val = *start;
+    if (val < 0) {
+      val = -val;
+    }
+    sum += val;
+
+    start++;
+    count--;
+  }
+  return sum;
+}
+
+absSum:
+  movq  $8, %r8           # Constant 8
+  movq  $1, %r9           # Constant 1
+
+  xorq  %rax, %rax        # sum = 0
+  subq  $0, %rsi          
+  jmp   test              # test count > 0
+loop:
+  mrmovq  (%rdi), %r10    # val = *start
+  xorq    %r11, %r11      # %r11 = 0
+  subq    %r10, %r11      # temp = -val
+  jle     pos             # test val >= 0
+  rrmovq  %r11, %r10      # val = temp
+pos:
+  addq    %r10, %rax
+  addq    %r8, %rdi
+  subq    %r9, %rdi
+test:
+  jne   loop
+  ret

@@ -1,0 +1,41 @@
+A. Inserting a single register gives a two-stage pipeline. Where should the
+register be inserted to maximize throughput? What would be the throughput
+and latency?
+-------------------------------------------------------------------------
+80 30 60 | 50 70 10 = 170 | 130
+
+mininum_clock_period = 190
+throughput = 5.26
+latency = 380
+
+
+
+B. Where should two registers be inserted to maximize the throughput of a
+three-stage pipeline? What would be the throughput and latency?
+-------------------------------------------------------------------------
+80 30 | 60 50 | 70 10 = 110 | 110 | 80
+
+mininum_clock_period = 130
+throughput = 7.69
+latency = 390
+
+
+C. Where should three registers be inserted to maximize the throughput of a
+4-stage pipeline? What would be the throughput and latency?
+---------------------------------------------------------------------------
+80 | 30 60 | 50 | 70 10 = 80 | 90 | 50 | 80
+
+mininum_clock_period = 110
+throughput = 9.09
+latency = 440
+
+
+D. What is the minimum number of stages that would yield a design with the
+maximum achievable throughput? Describe this design, its throughput, and
+its latency.
+-----------------------------------------------------------------------
+80 | 30 | 60 | 50 | 70 10 = 80 | 30 | 60 | 50 | 80
+
+mininum_clock_period = 100
+throughput = 10.0
+latency = 500

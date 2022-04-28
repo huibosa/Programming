@@ -1,0 +1,5 @@
+word srcB = [
+    icode in { IOPQ, IRMMOVQ, IMRMOVQ } : rB;
+    icode in { IPUSHQ, IPOPQ } : RRSP;
+    1 : RNONE;
+]

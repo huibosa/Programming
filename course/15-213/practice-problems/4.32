@@ -1,0 +1,21 @@
+Suppose the order of the third and fourth cases (the two forwarding sources
+from the memory stage) in the HCL code for d_valA were reversed. Describe the
+resulting behavior of the rrmovq instruction (line 5) for the following
+program:
+-----------------------------------------------------------------------
+
+irmovq $5, %rdx
+irmovq $0x100,%rsp
+rmmovq %rdx,0(%rsp)
+popq %rsp
+rrmovq %rsp,%rax
+
+The rrmovq instruction (line 5) would stall for one cycle due to a load/use
+hazard caused by the popq instruction (line 4). As it enters the decode stage,
+the popq instruction would be in the memory stage, giving both M_dstE and
+M_dstM equal to %rsp.
+
+If the two cases were reversed, then the write back from M_valE would take
+priority, causing the incremented stack pointer to be passed as the argument to
+the rrmovq instruction. This would not be consistent with the convention for
+handling popq %rsp determined in Practice Problem 4.8.

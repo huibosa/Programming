@@ -15,12 +15,12 @@ rsum:
   subq %r9, %rsi
   jle done                    # test (count <= 0)
 
-  pushq %rbx
+  pushq %rbx                  # save callee saved register
   mrmovq (%rdi), %rbx         # save *start
-  addq %r8, %rdi              # start = start + 1
-  addq %r10, %rsi             # count = count - 1
+  addq %r8, %rdi              # start++
+  addq %r10, %rsi             # count--
   call rsum
   addq %rbx, %rax             # *start + rsum(...)
-  pushq %rbx
+  pushq %rbx                  # restore callee saved register
 done:
   ret

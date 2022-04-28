@@ -343,35 +343,6 @@ ret
 
 ### 3.6.4 Jump Instruction Encodings
 
-```
-  movq %rdi, %rax
-  jmp .L2
-.L3:
-  sarq %rax
-.L2:
-  testq %rax, %rax
-  jg .L3
-  rep; ret
-```
-  
-```
-0: 48 89          f8 mov %rdi,%rax
-3: eb 03          jmp 8 <loop+0x8>
-5: 48 d1 f8       sar %rax
-8: 48 85 c0       test %rax,%rax
-b: 7f f8          jg 5 <loop+0x5>
-d: f3 c3          repz retq
-```
-
-```
-4004d0: 48 89           f8 mov %rdi,%rax
-4004d3: eb 03           jmp 4004d8 <loop+0x8>
-4004d5: 48 d1 f8        sar %rax
-4004d8: 48 85 c0        test %rax,%rax
-4004db: 7f f8           jg 4004d5 <loop+0x5>
-4004dd: f3 c3           repz retq
-```
-
 * The value of the program counter when performing PC-relative addressing is
   the address of the instruction *following the jump*, not that of the jump
   itself.
@@ -409,10 +380,9 @@ absdiff:
   subq %rdi, %rax   # rval = y-x
   movq %rdi, %rdx
   subq %rsi, %rdx   # eval = x-y
-  cmpq %rsi, %rdi
-  Compare x:y
+  cmpq %rsi, %rdi   # Compare x:y
   cmovge %rdx, %rax # If >=, rval = eval
-  ret Return tval
+  ret               # Return tval
 ```
 
 | Instruction | Synonym | Move condition   | Description                     |
@@ -582,139 +552,119 @@ implementing the action the program should take when the switch index equals i.
 The code performs an array reference into the jump table using the switch index
 to determine the target for a jump instruction. 
 
-```
-	subq	$100, %rsi
-	cmpq	$6, %rsi
-	ja	.L8
-	leaq	jt.1915(%rip), %rax
-	jmp	*.L4(,%rsi,8)
-.L3:
-	leaq	(%rdi,%rdi,2), %rax
-	leaq	(%rdi,%rax,4), %rdi
-	jmp	.L2
-.L5:
-	addq	$10, %rdi
-.L6:
-	addq	$11, %rdi
-	jmp	.L2
-.L7:
-	imulq	%rdi, %rdi
-	jmp	.L2
-.L8:
-	movl	$0, %edi
-.L2:
-	movq	%rdi, (%rdx)
-	ret
-```
+##  3.7 Procedures
+
+* Passing control
+* Passing data
+* Allocating and deallocating memory
+
+### 3.7.1 The Run-Time Stack
 
 ```
-.section    .rodata
-.align 8          ; align address to multiple of 8
-.L4
-  .quad	.L3
-  .quad	.L8
-  .quad	.L5
-  .quad	.L6
-  .quad	.L7
-  .quad	.L8
-  .quad	.L7
+      ^         +-------------------+
+      |         |         .         |
+      |         |         .         |   Earlier frames
+      |         |         .         |
+      |         +-------------------+
+      |
+      |         +-------------------+
+      |         |         .         |
+      |         |         .         |
+      |         |         .         |
+      |         +-------------------+
+      |         |     Argument n    |
+      |         +-------------------+   Frame for calling
+      |         |         .         |   function P
+  Incresing     |         .         |
+  address       |         .         |
+      |         +-------------------+
+      |         |     Argument 7    |
+      |         +-------------------+
+      |         |   Return address  |
+      |         +-------------------+
+      |
+      |         +-------------------+
+      |         |  Saved registers  |
+      |         +-------------------+
+      |         |  Local variables  |   Frame for executing
+      |         +-------------------+   function Q
+      |         |    Argument       |
+      |         |    build area     |
+     %rsp  ---> +-------------------+
+                    Stack "top"
 ```
+
+* When procedure P calls procedure Q, it will push the return address onto the
+  stack, indicating where within P the program should resume execution once Q
+  returns. We consider the return address to be part of P’s stack frame, since
+  it holds state relevant to P.
+* The stack frames for most procedures are of fixed size, allocated at the
+  beginning of the procedure. Some procedures, however, require variable-size
+  frames.
+* Procedure P can pass up to six integral values (i.e., pointers and integers)
+  on the stack, but if Q requires more arguments, these can be stored by P
+  within its stack frame prior to the call.
+
+### 3.7.2 Control Transfer
+
+The `call Q` instruction pushes an address `A` onto the stack and sets the `PC`
+to the beginning of `Q`. The pushed address `A` is referred to as the return
+address and is computed as the address of the instruction immediately following
+the call instruction. The counterpart instruction `ret` pops an address `A` off
+the stack and sets the PC to `A`.
+
+### 3.7.3 Data Transfer
+
+* When passing parameters on the stack, all data sizes are rounded up to be
+  multiples of eight.
+* If Q, in turn, calls some function that has more than six arguments, it can
+  allocate space within its stack frame for these, as is illustrated by the
+  area labeled "Argument build area"
 
 ### 3.7.4 Local Storage on the Stack
 
 ```
-caller:
-  subq $16, %rsp
-  movq $534, (%rsp)
-  movq $1057, 8(%rsp)
-  leaq 8(%rsp), %rsi
-  movq %rsp, %rdi
-  call swap_add 
-  movq (%rsp), %rdi
-  subq 8(%rsp), %rdx
-  imulq %rdi, %rax
-  addq %16, %rsp
-  ret
++----------------+
+|      a4p       | 16
++-------------+--+
+|             |a4| 8
++-------------+--+
+| Return address | 0 <-- %rsp
++----------------+
 ```
 
 ```
-call_proc:
-  subq    $32, %rsp
-  movq    $1, 24(%rsp)
-  movl    $2, 20(%rsp)
-  movw    $3, 18(%rsp)
-  movb    $4, 17(%rsp)
-  
-  leaq    17(%rsp), %rax
-  movq    %rax, 8(%rsp)   ; can not move from memory to memory
-  movq    $4, (%rsp)
-  leaq    18(%rsp), %r9
-  movl    $3, %r8d
-  leaq    20(%rsp), %rcx
-  movl    $2, %edx
-  leaq    24(%rsp), %rsi
-  movl    $1, %edi
-
-  call proc
-
-  movslq  20(%rsp), %rdx
-  addq    24(%rsp), %rdx
-  
-  movswl  18(%rsp), %eax
-  movsbl  17(%rsp), %ecx
-  subl    %ecx, %eax
-  
-  cltq
-  
-  imulq   %rdx, %rax
-  
-  addq    %32, %rsp
-  ret
++-----------------------------------+
+|            Return address         | 32
++-----------------------------------+
+|               x1                  | 24
++----------------+--------+----+----+
+|       x2       |   x3   | x4 |    | 16
++----------------+--------+----+----+
+|        Argument 8 = &x4           | 8
++------------------------------+----+
+|                              |    | 0
++------------------------------+----+   <-- %rsp
+                                  ^
+                                 /
+         Argumment 7 ------------
 ```
 
 ### 3.7.5 Local Storage in Registers
 
-```
-P:
-  pushq %rbp        ; save rbp
-  pushq %rbx        ; save rbx
-  subq $8, %rsp
-  
-  movq %rdi, %rbp
-  movq %rsi, %rdi   ; move y to first argument
-  call Q
-  movq %rax, %rbx   ; save result
-  
-  movq %rbp, %rdi
-  call Q
-  
-  addq %rbx, %rax
-  addq $8, %rsp
-  
-  popq %rbx         ; restore rbp
-  popq %rbp         ; restore rbp
-  ret
-```
+* By convention, registers `%rbx`, `%rbp`, and `%r12–%r15` are classified as
+  callee-saved registers. When procedure P calls procedure Q, Q must preserve
+  the values of these registers, ensuring that they have the same values when Q
+  returns to P as they did when Q was called.
+* Procedure Q can preserve a register value by either not changing it at all or
+  by pushing the original value on the stack, altering it, and then popping the
+  old value from the stack before returning.
+* The pushing of register values has the effect of creating the portion of the
+  stack frame labeled "Saved registers"
+* All other registers, except for the stack pointer `%rsp`, are classified as
+  caller-saved registers.
 
-### Recursive Procedures
-
-```
-rfact:
-  pushq   %rbx
-  movq    %rdi, %rbx
-
-  movl    $1, %eax
-  cmpq    $1, %rdi
-  jle     .L35
-  
-  leaq    -1(%rdi), %rdi
-  call    rfact
-  imulq   %rbx, %rax
-
-.L35:
-  popq    %rbx
-  ret
-```
+### 3.7.6 Recursive Procedures
 
 ## 3.8 Array Allocation and Access
 

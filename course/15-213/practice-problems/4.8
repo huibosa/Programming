@@ -1,0 +1,14 @@
+  .text
+.globl poptest
+poptest:
+  movq %rsp, %rdi         Save stack pointer
+  pushq $0xabcd           Push test value
+  popq %rsp               Pop to stack pointer
+  movq %rsp, %rax         Set popped value as return value
+  movq %rdi, %rsp         Restore stack pointer
+  ret
+
+This code sequence pushes 0xabcd onto the stack, pops to %rsp, and returns the
+popped value. Since the result equals 0xabcd, we can deduce that popq %rsp sets
+the stack pointer to the value read from memory. It is therefore equivalent to
+the instruction mrmovq (%rsp),%rsp.
