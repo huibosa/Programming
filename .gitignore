@@ -9,7 +9,6 @@
 **/*.ipynb
 **/*.txt
 **/*.json
-**/build
 /Tex/**/*.aux
 /Tex/**/*.fdb_latexmk
 /Tex/**/*.fls

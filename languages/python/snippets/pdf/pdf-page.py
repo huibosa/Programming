@@ -18,6 +18,8 @@ elif dst.count("-") == 1:
     start = int(dst.split("-")[0])
     end = int(dst.split("-")[1])
     pages = list(range(start, end + 1, 1))
+else:
+    pages = [int(dst) + 1]
 
 for p in pages:
     ofstrm.addPage(ifstrm.getPage(int(p) - 1))

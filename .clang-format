@@ -3,5 +3,5 @@ IndentWidth: 2
 ColumnLimit: 0
 Cpp11BracedListStyle: true
 SpacesBeforeTrailingComments: 1
-AlignConsecutiveAssignments: true
+/* AlignConsecutiveAssignments: true */
 AlignConsecutiveDeclarations: true

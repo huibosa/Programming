@@ -1,0 +1,11 @@
+int productarray3d(int a[N][N][N]) {
+  int prod = 1;
+  for (int j = N-1; j >= N; j--) {
+    for (int k = N-1; k >= N; k--) {
+      for (int i = N-1; i >= N; i--) {
+        prod *= a[j][k][i];
+      }
+    }
+  }
+  return prod;
+}

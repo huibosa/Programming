@@ -1,0 +1,39 @@
+double polyh(double a[], double x, long degree) {
+  double ret = a[degree];
+
+  for (long i = degree - 1; i >= 0; i--) {
+    ret = a[i] + x * ret;
+  }
+
+  return ret;
+}
+
+
+
+
+A. For degree n, how many additions and how many multiplications does this
+code perform?
+--------------------------------------------------------------------------
+additions: n
+multiplications: n
+
+
+B. On our reference machine, with the arithmetic operations having the laten-
+cies shown in Figure 5.12, we measure the CPE for this function to be 8.00.
+Explain how this CPE arises based on the data dependencies formed be-
+tween iterations due to the operations implementing line 7 of the function.
+--------------------------------------------------------------------------
+We can see that the performance-limiting computation here is the repeated
+computation of the expression result = a[i] + x*result. Starting from the
+value of result from the previous iteration, we must first multiply it by x (5
+clock cycles) and then add it to a[i] (3 cycles) before we have the value for
+this iteration. Thus, each iteration imposes a minimum latency of 8 cycles,
+exactly our measured CPE. 
+
+
+C. Explain how the function shown in Practice Problem 5.5 can run faster, even
+though it requires more operations.
+--------------------------------------------------------------------------
+Although each iteration in function poly requires two multiplications rather
+than one, only a single multiplication occurs along the critical path per
+iteration.

@@ -11,7 +11,7 @@ if [[ ! -d "$1" ]]; then
   exit 1
 fi
 
-for i in "$1"/**/*; do
+for i in "$1"/*; do
   owner="$(stat -c %U "$i")"
   group="$(stat -c %G "$i")"
   files+=("$i")
