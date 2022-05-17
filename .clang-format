@@ -1,7 +1,5 @@
+BasedOnStyle: Google
+DerivePointerAlignment: false
 PointerAlignment: Left
-IndentWidth: 2
-ColumnLimit: 0
-Cpp11BracedListStyle: true
-SpacesBeforeTrailingComments: 1
-/* AlignConsecutiveAssignments: true */
-AlignConsecutiveDeclarations: true
+
+IncludeBlocks: Merge

@@ -5,11 +5,11 @@ class Employee:
 
     @property
     def email(self):
-        return "{}.{}@emal.com".format(self.first, self.last)
+        return "{}.{}@email.com".format(self.first, self.last)
 
     @property
     def fullname(self):
-        return "{} {}@emal.com".format(self.first, self.last)
+        return "{} {}".format(self.first, self.last)
 
     @fullname.setter
     def fullname(self, name):
@@ -28,6 +28,6 @@ emp1 = Employee("Huibosa", "Makima")
 emp1.fullname = "hello world"
 del emp1.fullname
 
-print(emp1.first)
-print(emp1.email)
-print(emp1.fullname)
+print("First name:", emp1.first)
+print("Email:", emp1.email)
+print("Full name:", emp1.fullname)

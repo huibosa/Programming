@@ -5,16 +5,20 @@ typedef double data_t;
 
 typedef struct {
   long len;
-  data_t *data;
+  data_t* data;
 } vec_rec, *vec_ptr;
 
 long vec_length(vec_ptr v) { return v->len; }
 
-data_t *get_vec_start(vec_ptr v) { return v->data; }
+data_t* get_vec_start(vec_ptr v) { return v->data; }
 
-void get_vec_element(vec_ptr v, long i, data_t *val) { *val = v->data[i]; }
+int get_vec_element(vec_ptr v, long index, data_t* dest) {
+  if (index < 0 || index >= v->len) return 0;
+  *dest = v->data[index];
+  return 1;
+}
 
-void combine1(vec_ptr v, data_t *dst) {
+void combine1(vec_ptr v, data_t* dst) {
   long i;
   *dst = IDENT;
   for (i = 0; i < vec_length(v); i++) {
@@ -24,7 +28,7 @@ void combine1(vec_ptr v, data_t *dst) {
   }
 }
 
-void combine2(vec_ptr v, data_t *dst) {
+void combine2(vec_ptr v, data_t* dst) {
   long i;
   long length = vec_length(v);
 
@@ -36,10 +40,10 @@ void combine2(vec_ptr v, data_t *dst) {
   }
 }
 
-void combine3(vec_ptr v, data_t *dst) {
+void combine3(vec_ptr v, data_t* dst) {
   long i;
   long length = vec_length(v);
-  data_t *data = get_vec_start(v);
+  data_t* data = get_vec_start(v);
 
   *dst = IDENT;
   for (i = 0; i < length; i++) {
@@ -47,10 +51,10 @@ void combine3(vec_ptr v, data_t *dst) {
   }
 }
 
-void combine4(vec_ptr v, data_t *dst) {
+void combine4(vec_ptr v, data_t* dst) {
   long i;
   long length = vec_length(v);
-  data_t *data = get_vec_start(v);
+  data_t* data = get_vec_start(v);
   data_t acc = IDENT;
 
   for (i = 0; i < length; i++) {
@@ -59,11 +63,11 @@ void combine4(vec_ptr v, data_t *dst) {
   *dst = acc;
 }
 
-void combine5(vec_ptr v, data_t *dst) {
+void combine5(vec_ptr v, data_t* dst) {
   long i;
   long length = vec_length(v);
   long limit = length - 1;
-  data_t *data = get_vec_start(v);
+  data_t* data = get_vec_start(v);
   data_t acc = IDENT;
 
   for (i = 0; i < limit; i += 2) {
@@ -77,11 +81,11 @@ void combine5(vec_ptr v, data_t *dst) {
   *dst = acc;
 }
 
-void combine5p(vec_ptr v, data_t *dst) {
+void combine5p(vec_ptr v, data_t* dst) {
   long i;
   long length = vec_length(v);
   long limit = length - 5 + 1;
-  data_t *data = get_vec_start(v);
+  data_t* data = get_vec_start(v);
   data_t acc = IDENT;
 
   for (i = 0; i < limit; i += 5) {
@@ -96,11 +100,11 @@ void combine5p(vec_ptr v, data_t *dst) {
   *dst = acc;
 }
 
-void combine6(vec_ptr v, data_t *dst) {
+void combine6(vec_ptr v, data_t* dst) {
   long i;
   long length = vec_length(v);
   long limit = length - 1;
-  data_t *data = get_vec_start(v);
+  data_t* data = get_vec_start(v);
   data_t acc0 = IDENT;
   data_t acc1 = IDENT;
 
@@ -116,15 +120,15 @@ void combine6(vec_ptr v, data_t *dst) {
   *dst = acc0 OP acc1;
 }
 
-void combine7(vec_ptr v, data_t *dst) {
+void combine7(vec_ptr v, data_t* dst) {
   long i;
   long length = vec_length(v);
   long limit = length - 1;
-  data_t *data = get_vec_start(v);
+  data_t* data = get_vec_start(v);
   data_t acc = IDENT;
 
   for (i = 0; i < limit; i += 2) {
-    acc = acc OP (data[i] OP data[i+1]);
+    acc = acc OP(data[i] OP data[i + 1]);
   }
 
   for (; i < length; i++) {

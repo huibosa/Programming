@@ -19,3 +19,14 @@ void psum2(float a[], float p[], long n) {
     p[i] = p[i-1] + a[i];
   }
 }
+
+void psum0(float a[], float p[], long n) {
+  float prev;
+  float curr;
+  prev = p[0] = a[0];
+  for (long i = 1; i < n; i++) {
+    curr = prev + a[i];
+    p[i] = curr;
+    prev = curr;
+  }
+}

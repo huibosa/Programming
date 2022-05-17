@@ -44,7 +44,7 @@ This declaration:
 * Creates an *identifier* `entity`.
 * Provides a value to be stored in the object.
 
----
+---------------------------------------------------------------------------
 
 ```c
 int * pt = &entity;
@@ -62,7 +62,7 @@ int ranks[10];
 * The declaration of `ranks`, creates an object capable of holding ten `int`s,
   and each member of the array also is an object.
 
----
+---------------------------------------------------------------------------
 
 ```c
 const char * pc = "Behold a string literal"
@@ -109,7 +109,7 @@ variables.
 *Formal function parameters* have block scope and belong to the block
 containing the function body. 
 
----
+------------------------------------------------------------------------------
 
 C99 expanded the concept of a block to include the code controlled by
 a *for loop*, *while loop*, *do while loop*, or *if statement*, even
@@ -140,7 +140,7 @@ int mighty(int mouse, double large);
 * All the compiler cares about when handling a function prototype argument is
   the types; the names don’t matter.
 
----
+------------------------------------------------------------------------------
 
 If you use names in the brackets, they have to be names declared earlier in
 the prototype.
@@ -161,13 +161,11 @@ void use_a_VLA(int n, int m, ar[n][m]);
 int units = 0;          /* a variable with file scope */
 void critic(void);
 
-int main(void)
-{
+int main(void) {
     /* some code */
 }
 
-void critic(void)
-{
+void critic(void) {
     /* some code */
 }
 ```
@@ -213,8 +211,7 @@ definition.
 ```c
 int giants = 5; // file scope, external linkage
 static int dodgers = 3; // file scope, internal linkage
-int main()
-{
+int main() {
     /* some code */
 }
 /* some code */
@@ -252,7 +249,7 @@ An object with thread storage duration exists from when it’s declared until
 the thread terminates.
 
 Such an object is created when a declaration that would otherwise create a file
-scope object is modified with the keyword `_Thread_local`.When a variable is
+scope object is modified with the keyword `_Thread_local`. When a variable is
 declared with this specifier, each thread gets its own private copy of that
 variable.
 
@@ -272,8 +269,7 @@ To create a variable have block scope but static storage duration.
 Declare it inside a block and add the keyword static to the declaration:
 
 ```c
-void more(int number)
-{
+void more(int number) {
     int index;
     static int ct = 0;
     ...
@@ -316,8 +312,7 @@ automatic storage class.
 You can use the keyword `auto` to declare an automatic variable:
 
 ```c
-int main(void)
-{
+int main(void) {
     auto int plox;
 }
 ```
@@ -336,14 +331,13 @@ is defined can access that variable by name. (Of course, arguments can be used
 to communicate the variable’s value and address to another function, but that
 is indirect knowledge.)
 
----
+------------------------------------------------------------------------------
 
 When the program exits the block, the automatic variable disappears. Its memory
 location now can be used for something else, although not necessarily.
 
 ```c
-int loop(int n)
-{
+int loop(int n) {
     int m;                  // m in scope
     scanf("%d", &m);
     {

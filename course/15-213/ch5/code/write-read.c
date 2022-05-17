@@ -22,4 +22,3 @@ void write_read(long *src, long *dst, long n) {
 //   jne loop
 // done:
 //   ret
-// 

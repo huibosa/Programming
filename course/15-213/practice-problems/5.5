@@ -11,9 +11,6 @@ double poly(double a[], double x, long degree) {
 }
 
 
-
-
-
 A. For degree n, how many additions and how many multiplications does this
 code perform?
 --------------------------------------------------------------------------
@@ -33,3 +30,21 @@ point multiplication (5 clock cycles), and the computation for one iteration
 cannot begin until the one for the previous iteration has completed. The
 updating of result only requires a floating-point addition (3 clock cycles)
 between successive iterations.
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+In one iteration, there are three operation executed in parallel:
+
+* `result += PREV`, where `PREV` equals to `a[i] * xwpr`, which was calculated
+  in *previous iteration*, requiring a floating-point addition (3 clock cycles).
+* `a[i] * xpwr`, whose value will be used in *next iteration*, requiring a
+  floating-point multiplication (5 clock cycles).
+* `xpwr * x`, whose value will be used in *next iteration*, requiring a
+  floating-point multiplication (5 clock cycles).
+
+As you can see, there are no data dependencies among the three operation, so
+for a superscalar out-of-order CPU, they can execute in parallel, which result in a CPE of 5.
+
+They don't necessarily start in the same clock cycle (and in fact they can't all because the
+CPU doesn't have 3 FP execution units), but one can start before another finishes, so their
+latencies can overlap. They're in flight at the same time, in the pipelined FP execution units.

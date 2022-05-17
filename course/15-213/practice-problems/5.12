@@ -1,0 +1,18 @@
+void psum0(float a[], float p[], long n) {
+  float prev;
+  float curr;
+  prev = p[0] = a[0];
+  for (long i = 1; i < n; i++) {
+    curr = prev + a[i];
+    p[i] = curr;
+    prev = curr;
+  }
+}
+
+# a in %rdi, i in %rax, cnt in %rdx, last_val in %xmm0
+loop:
+  vaddss (%rdi, %rax, 8), %xmm0, %xmm0    prev = curr = prev + a[i]
+  vmovss %xmm0, (%rsi, %rax, 8)           p[i] = curr
+  addq $1, %rax
+  cmpq %rdx, %rax
+  jne loop

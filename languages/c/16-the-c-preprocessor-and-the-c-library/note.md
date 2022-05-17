@@ -762,10 +762,10 @@ The C99 standard provides for one called `__func__`.
 * Therefore, `__func__` is a C language predefined identifier rather than a
   predefined macro.
 
-### `#line` and `#error`
+### #line and #error
 
-The `#line` directive lets you reset the line numbering and the filename as
-reported by the `__LINE__` and `__FILE__` macros.
+The #line directive lets you reset the line numbering and the filename as
+reported by the __LINE__ and __FILE__ macros.
 
 ```c
 #line 1000          // reset current line number to 1000
