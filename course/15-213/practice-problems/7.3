@@ -1,0 +1,13 @@
+A. p.o → libx.a
+--------------------------------------------------
+gcc -static p.o libx.a
+
+
+B. p.o → libx.a → liby.a
+--------------------------------------------------
+gcc -static p.o libx.a liby.a
+
+
+C. p.o → libx.a → liby.a and liby.a → libx.a → p.o
+--------------------------------------------------
+gcc -static p.o libx.a liby.a libx.a p.o

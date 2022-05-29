@@ -1,0 +1,10 @@
+01100101 101 00
+
+--------------------------------------------------------------------------------------
+
+Parameter               Value
+Cache block offset (CO) 0x0
+Cache set index (CI)    0x5
+Cache tag (CT)          0x65
+Cache hit? (Y/N)        N
+Cache byte returned     --

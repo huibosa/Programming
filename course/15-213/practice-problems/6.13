@@ -1,0 +1,17 @@
+(S, E, B, m)
+(8, 2, 4, 13)
+
+t = 8
+s = 3
+b = 2
+
+01101010 100 11
+
+--------------------------------------------------------------------------------------
+
+Parameter Value
+Cache block offset (CO) 0x3
+Cache set index (CI)    0x4
+Cache tag (CT)          0x6a
+Cache hit? (Y/N)        N
+Cache byte returned     --

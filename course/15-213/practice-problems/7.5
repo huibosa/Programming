@@ -1,0 +1,16 @@
+ADDR(s) = 0x4004d0
+ADDR(r.symbol) = 0x4004e8
+
+r.offset = 0xa
+r.symbol = swap
+r.type = R_X86_64_PC32
+r.addend = -4
+
+refaddr = ADDR(s) + r.offset = 0x4004da
+
+*refptr = (unsigned) (ADDR(r.symbol) + addend - refaddr)
+        = (0x4004e8 + (-4) - 0x4004da)
+        = 0xe - 4
+        = 0xa
+
+4004d9: e8 0a 00 00 00 callq 4004e8 <swap>

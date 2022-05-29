@@ -3,7 +3,7 @@
 
 def readlines():
     with open("sorted_output.txt") as f:
-        line = f.readlines()
+        lines = f.readlines()
 
 
 def readline():

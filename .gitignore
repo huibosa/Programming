@@ -1,4 +1,6 @@
 **/a.out
+**/*.o
+**/*.so
 **/__pycache__
 **/.gch
 **/.vscode
