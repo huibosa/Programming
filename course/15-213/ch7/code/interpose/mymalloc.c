@@ -2,8 +2,8 @@
 ///        COMPILETIME
 /////////////////////////////////////////
 #ifdef COMPILETIME
-#include <stdio.h>
 #include <malloc.h>
+#include <stdio.h>
 
 void* mymalloc(size_t size) {
   void* p = malloc(size);
@@ -45,11 +45,11 @@ void __wrap_free(void* ptr) {
 
 #ifdef RUNTIME
 #define _GNU_SOURCE
+#include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <dlfcn.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 
 // NOTE: Use sprint() and write() since printf() will call malloc() recursively
 void* malloc(size_t size) {
@@ -65,7 +65,7 @@ void* malloc(size_t size) {
   char* ptr = mallocp(size);  // Call libc malloc
   // printf("malloc(%d) = %p\n", (int)size, ptr);
   sprintf(buf, "malloc(%d) = %p\n", (int)size, ptr);
-  write(STDOUT_FILENO, buf,  strlen(buf));
+  write(STDOUT_FILENO, buf, strlen(buf));
   return ptr;
 }
 

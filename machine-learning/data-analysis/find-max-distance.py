@@ -20,6 +20,7 @@ if __name__ == "__main__":
     ax.scatter(xs, ys, s=5, c="k")
 
     pts = np.array(list(zip(xs, ys)))
+    # pts = np.meshgrid(xs, ys)
     maxDist = 0
     maxPair = ()
 

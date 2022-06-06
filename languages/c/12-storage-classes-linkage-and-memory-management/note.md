@@ -1245,7 +1245,7 @@ volatile int * ploc;    // ploc points to a volatile location
 
 `loc1` to be a volatile value and `ploc` to point to a volatile value.
 
----
+----------------------------------------------------------------------------------
 
 ```c
 val1 = x;

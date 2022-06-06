@@ -11,14 +11,12 @@ Arrays declaration
 ### Initialization
 
 * Without being initialized, the array elements will have any value that
-happens to be at the location.
+  happens to be at the location.
 * While with partially initialized, the remaining elements get the value 0.
-
-> A common and recommend practice is to use the symbolic constant to
-represent the array size.
->
-> Use `const` to initialize a read-only array, which make the program
-treat each elements in the array as a constant.
+* A common and recommend practice is to use the symbolic constant to represent
+  the array size.
+* Use `const` to initialize a read-only array, which make the program treat
+  each elements in the array as a constant.
 
 Note Storage Class Caveat:
 
@@ -29,19 +27,21 @@ Note Storage Class Caveat:
 You can omit the array size from the braces, and use a `for` loop like this:
 
 ```c
-const int days[];
+const int days[] = {31,28,31,30,31,30,31,31,30,31};
 
-for (index = 0; index < sizeof days / sizeof day[0]; index++);
+for (index = 0; index < sizeof days / sizeof day[0]; index++) {
+  //...
+}
 ```
 
-* With a empty brace to initialize the array, the array size is the number
-of items in the list.
+* With a empty brace to initialize the array, the array size is the number of
+  items in the list.
 * `sizeof days` gives the size of the whole array, in bytes.
 * `sizeof days[0]` gives the size of one elements in the array (*all the
-elements has the same type, so they have the same size*).
+  elements has the same type, so they have the same size*).
 
 > Potential disadvantage of automatic counting: Errors in the number of
-elements could pass unnoticed.
+> elements could pass unnoticed.
 
 ### Designated Initializers (C99)
 

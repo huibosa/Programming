@@ -5,11 +5,8 @@
 **/.gch
 **/.vscode
 **/build
-**/*.csv
-**/*.pdf
 **/.venv
 **/*.ipynb
-**/*.txt
 **/*.json
 /Tex/**/*.aux
 /Tex/**/*.fdb_latexmk

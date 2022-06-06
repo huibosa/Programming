@@ -62,7 +62,7 @@ char pies[2 * sizeof(long double) + 1)];      // valid
 char crumbs[n];         // invalid prior to C99, a VLA after C99
 ```
 
----
+---------------------------------------------------------------------------------
 
 The name of a character array, yields the address of the first element of the
 array:
@@ -143,16 +143,22 @@ char heart[] = "I love Title!";
 const char *head = "I love Millie!";
 
 // both can use the array notation
-for (i = 0; i < 6, i++)
+for (i = 0; i < 6, i++) {
     putchar(heart[i]);
-for (i = 0; i < 6, i++)
+}
+
+for (i = 0; i < 6, i++) {
     putchar(head[i]);
+}
 
 // both can use pointer notation
-for (i = 0; i < 6, i++)
+for (i = 0; i < 6, i++) {
     putchar(*(heart + i));
-for (i = 0; i < 6, i++)
+}
+
+for (i = 0; i < 6, i++) {
     putchar(*(head + i));
+}
 
 // only the pointer version can use the increment operator
 while (*(head) != '\0')
@@ -635,8 +641,7 @@ string-handling functions.
 #include <string.h>
 void fit(char *, unsigned int);
 
-int main(void)
-{
+int main(void) {
     char mesg[] = "Things should be as simple as possible,"
         " but not simpler.";
 

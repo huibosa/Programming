@@ -236,11 +236,11 @@ The `fclose()` function can fail if:
 
 ### Pointers to the Standard Files
 
-|Standard|File Pointer|Normally|
-|---|---|---|
-|Standard input|`stdin`|Your keyboard|
-|Standard output|`stdout`|Your screeen|
-|Standard error|`stderr`|Your screeen|
+| Standard        | File Pointer | Normally      |
+| ---             | ---          | ---           |
+| Standard input  | `stdin`      | Your keyboard |
+| Standard output | `stdout`     | Your screeen  |
+| Standard error  | `stderr`     | Your screeen  |
 
 ## A Simple-Minded File-Condensing Program
 
@@ -251,23 +251,20 @@ The `fclose()` function can fail if:
 
 #define LEN 81
 
-int main(int argc, char * argv[])
-{
+int main(int argc, char * argv[]) {
     FILE *in, *out;       // declare two FILE pointers
     int ch;
     char name[LEN];          // storage for output filename
     int count = 0;
 
     // check for command-line arguments
-    if (argc < 2)
-    {
+    if (argc < 2) {
         fprintf(stderr, "Usage: %s filename\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
     // set up input
-    if ((in = fopen(argv[1], "r")) == NULL)
-    {
+    if ((in = fopen(argv[1], "r")) == NULL) {
         fprintf(stderr, "I couldn't open the file \"%s\"\n", argv[1]);
         exit(EXIT_FAILURE);
     }
@@ -280,8 +277,7 @@ int main(int argc, char * argv[])
 
     strcat(name, ".red");               // append .red
 
-    if ((out = fopen(name, "w")) == NULL)
-    {
+    if ((out = fopen(name, "w")) == NULL) {
         fprintf(stderr, "Can't create output file.\n");
         exit(3);
     }
@@ -843,8 +839,7 @@ int main()
 
     // read selected items from file
     printf("Enter an index in the range 0-%d.\n", ARSIZE - 1);
-    while (scanf("%d", &i) == 1 && i >= 0 && i < ARSIZE)
-    {
+    while (scanf("%d", &i) == 1 && i >= 0 && i < ARSIZE) {
         pos = (long) i * sizeof(double);        // calculate offset
         fseek(iofile, pos, SEEK_SET);           // go there
         fread(&value, sizeof(double), 1, iofile);
