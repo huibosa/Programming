@@ -1,3 +1,6 @@
+#include <asm-generic/errno-base.h>
+#include <csapp.h>
+#include <errno.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +9,7 @@
 #include <unistd.h>
 #include <wait.h>
 
-#define N 2
+#define N 10
 
 // * fork0 - The simplest fork example
 // * Call once, return twice
@@ -145,6 +148,71 @@ void fork12() {
   }
 }
 
+int ccount = 0;
+void child_handler(int sig) {
+  int olderrno = errno;
+  pid_t pid;
+  if ((pid = wait(NULL)) < 0) {
+    Sio_error("wait error");
+  }
+  ccount--;
+  Sio_puts("Handler reaped child ");
+  Sio_putl((long)pid);
+  Sio_puts(" \n");
+  sleep(1);
+  errno = olderrno;
+}
+
+void child_handler2(int sig) {
+  int olderrno = errno;
+  pid_t pid;
+  while ((pid = wait(NULL)) > 0) {
+    ccount--;
+    Sio_puts("Handler reaped child ");
+    Sio_putl((long)pid);
+    Sio_puts(" \n");
+  }
+  if (errno != ECHILD) {
+    Sio_error("wait error");
+  }
+  errno = olderrno;
+}
+
+void fork14() {
+  pid_t pid[N];
+  ccount = N;
+
+  Signal(SIGCHLD, child_handler);
+
+  for (int i = 0; i < N; i++) {
+    if ((pid[i] = Fork()) == 0) {
+      Sleep(1);
+      exit(0);
+    }
+  }
+
+  while (ccount > 0) {
+    ;
+  }
+}
+
+void fork15() {
+  pid_t pid[N];
+  ccount = N;
+
+  Signal(SIGCHLD, child_handler2);
+
+  for (int i = 0; i < N; i++) {
+    if ((pid[i] = Fork()) == 0) {
+      Sleep(1);
+      exit(1);
+    }
+  }
+
+  while (ccount > 0) {
+    ;
+  }
+}
 int main(int argc, char* argv[]) {
   if (argc != 2) {
     printf("Usage: %s <number>\n", argv[0]);
@@ -170,6 +238,12 @@ int main(int argc, char* argv[]) {
       break;
     case 12:
       fork12();
+      break;
+    case 14:
+      fork14();
+      break;
+    case 15:
+      fork15();
       break;
     default:
       puts("Invalid fork number");

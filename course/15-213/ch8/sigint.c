@@ -5,15 +5,12 @@
 #include <csapp.h>
 
 void sigint_handler(int sig) {
-  printf("So you think you can stop the bomb with ctrl-c, do you?\n");
-  sleep(2);
-  printf("Well...");
-  sleep(1);
-  printf("OK. :)\n");
+  printf("Caught SIGINT\n");
+  exit(0);
 }
 
 int main(void) {
-  if (signal(SIGINT, sigint_handler)) {
+  if (signal(SIGINT, sigint_handler) == SIG_ERR) {
     unix_error("signal error");
   }
 
