@@ -1,27 +1,12 @@
 CC = gcc
-CFLAGS = -Wall
-
-PROGS = forks\
-				myecho\
-				shellex\
-				sigint\
-				kill
+CFLAGS = -Wall -g -Og
+SRCS = $(wildcard *.c)
+PROGS = $(patsubst %.c,%,$(SRCS))
 
 all: $(PROGS)
 
-forks: forks.c
-	$(CC) $(CFLAGS) -Og -o $@ $^ -lcsapp
-
-myecho: myecho.c
-
-shellex: shellex.c
-	$(CC) $(CFLAGS) -Og -o $@ $^ -lcsapp
-
-sigint: sigint.c
-	$(CC) $(CFLAGS) -Og -o $@ $^ -lcsapp
-
-kill: kill.c
-	$(CC) $(CFLAGS) -Og -o $@ $^ -lcsapp
+%: %.c
+	$(CC) $(CFLAGS) -o $@ $< -lcsapp
 
 clean:
-	rm -f $(PROGS) *.o
+	rm -f $(PROGS)
