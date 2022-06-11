@@ -1,10 +1,13 @@
 CC = gcc
-CFLAGS = -Wall -g -Og
+CFLAGS = -Wall -Og -g
+SRCS = $(wildcard *.c)
+PROGS = $(patsubst %.c,%,$(SRCS))
 
-PROGS = cpstdin
+all: $(PROGS)
 
-cpstdin: cpstdin.c
-	$(CC) $((CFLAGS) -o $@ $^ -lcsapp
+%: %.c
+	$(CC) $(CFLAGS) -o $@ $< -lcsapp
 
+.PHONY: clean
 clean:
-	rm -f $(PROGS) *.o
+	find ./ -type f -executable -print0 | xargs -0 rm -f --

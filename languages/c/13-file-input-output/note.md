@@ -398,11 +398,11 @@ and Unix files.
   negative (move backward), or zero (stay put).
 * Third one is the mode, which identifies the starting point.
 
-|Mode|Measureed Offset From|
-|---|---|
-|`SEEK_SET`|Beginning of file|
-|`SEEK_CUR`|Current position|
-|`SEEK_END`|End of file|
+| Mode       | Measureed Offset From |
+| ---        | ---                   |
+| `SEEK_SET` | Beginning of file     |
+| `SEEK_CUR` | Current position      |
+| `SEEK_END` | End of file           |
 
 ```c
 fseek(fp, 0L, SEEK_SET);        // go to the beginning of the file

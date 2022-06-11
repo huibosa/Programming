@@ -1,9 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -g -Og
-
-PROGS = 8.12
+SRCS = $(wildcard *.c)
+PROGS = $(patsubst %.c,%.out,$(SRCS))
 
 all: $(PROGS)
 
-8.12: 8.12.c
-	$(CC) $(CFLAGS) -o $@ $^ -lcsapp
+%.out: %.c
+	$(CC) $(CFLAGS) -o $@ $< -lcsapp
+
+.PHONY: clean
+
+clean:
+	find ./ -type f -executeble -print0 | xargs -0 rm -rf --

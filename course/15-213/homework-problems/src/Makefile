@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -g -Og
-SRCS = $(wildcard 8.*.c)
+SRCS = $(wildcard *.c)
 PROGS = $(patsubst %.c,%.out,$(SRCS))
 
 all: $(PROGS)
