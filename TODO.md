@@ -63,6 +63,32 @@ add  $8, %rsp
 pop  rbx
 pop  rbp
 
--------------------------------------------------------------------------
+---
 
-Library interposition (runtime) segmentation fault
+write back && write through
+
+---
+
+> Further, the cost of reading the first byte from a disk sector is about
+> 100,000 times slower than reading successive bytes in the sector.
+
+---
+
+The data segment follows the code segment after a suitable alignment gap.
+
+---
+
+An important point to realize is that at any point in time, the swap space
+bounds the total amount of virtual pages that can be allocated by the currently
+running processes.
+
+---
+
+alignment (P309)
+
+---
+
+* errno
+* strerro
+
+---

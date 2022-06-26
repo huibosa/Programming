@@ -1,12 +1,12 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Og -fno-common
-SRC = $(wildcard *.c)
-PROGS = $(patsubst %.c,%,$(SRC))
+CFLAGS = -Wall -Og -fno-common
+BARSRCS = $(wildcard bar*.c)
+PROGS = $(patsubst %.c,foo%, $(BARSRCS))
 
-all: $(PROGS)
+# all: $(PROGS)
 
-%:%.c
-	$(CC) $(CFLAGS) -o $@ $<
+foobar6: bar6.c foo6.c
+	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
 	rm -f $(PROGS) *.o
