@@ -92,3 +92,5 @@ alignment (P309)
 * strerro
 
 ---
+
+what is dump core

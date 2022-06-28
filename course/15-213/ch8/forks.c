@@ -213,7 +213,7 @@ void fork15() {
     ;
   }
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   if (argc != 2) {
     printf("Usage: %s <number>\n", argv[0]);
     exit(1);
@@ -221,33 +221,39 @@ int main(int argc, char* argv[]) {
 
   int n = atoi(argv[1]);
   switch (n) {
-    case 7:
-      fork7();
-      break;
-    case 8:
-      fork8();
-      break;
-    case 9:
-      fork9();
-      break;
-    case 10:
-      fork10();
-      break;
-    case 11:
-      fork11();
-      break;
-    case 12:
-      fork12();
-      break;
-    case 14:
-      fork14();
-      break;
-    case 15:
-      fork15();
-      break;
-    default:
-      puts("Invalid fork number");
-      exit(1);
+  case 0:
+    fork0();
+    break;
+  case 1:
+    fork1();
+    break;
+  case 7:
+    fork7();
+    break;
+  case 8:
+    fork8();
+    break;
+  case 9:
+    fork9();
+    break;
+  case 10:
+    fork10();
+    break;
+  case 11:
+    fork11();
+    break;
+  case 12:
+    fork12();
+    break;
+  case 14:
+    fork14();
+    break;
+  case 15:
+    fork15();
+    break;
+  default:
+    puts("Invalid fork number");
+    exit(1);
   }
 
   return 0;

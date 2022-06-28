@@ -59,7 +59,7 @@ void eval(char* cmdline) {
 }
 
 int builtin_command(char** argv) {
-  if (!strcmp(argv[0], "quit")) {  // builin quit command
+  if (!strcmp(argv[0], "quit")) {  // built-in quit command
     exit(0);
   }
   if (!strcmp(argv[0], "&")) {  // any command other than a singleton &
@@ -68,59 +68,59 @@ int builtin_command(char** argv) {
   return 0;
 }
 
-int parseline(char* buf, char** argv) {
-  int argc = 0;
-  int buflen;
-
-  buf[strlen(buf) - 1] = ' ';      // replace trailing '\n' to space
-  while (*buf && (*buf == ' ')) {  // ignore leading spaces
-    buf++;
-  }
-
-  buflen = strlen(buf);
-  for (int p = 0, q = 0; p < buflen && q < buflen;) {
-    if (buf[q] != ' ') {
-      q++;
-      continue;
-    }
-    buf[q] = '\0';
-    argv[argc++] = buf + p;
-    p = q + 1;
-  }
-
-  // Check if run in background
-  if (!strcmp(argv[argc - 1], "&")) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
 // int parseline(char* buf, char** argv) {
-//   char* delim; /* Points to first space delimiter */
-//   int argc;    /* Number of args */
-//   int bg;      /* Background job? */
+//   int argc = 0;
+//   int buflen;
 
-//   buf[strlen(buf) - 1] = ' ';   /* Replace trailing '\n' with space */
-//   while (*buf && (*buf == ' ')) /* Ignore leading spaces */
+//   buf[strlen(buf) - 1] = ' ';      // replace trailing '\n' with space
+//   while (*buf && (*buf == ' ')) {  // ignore leading spaces
 //     buf++;
-
-//   /* Build the argv list */
-//   argc = 0;
-//   while ((delim = strchr(buf, ' '))) {
-//     argv[argc++] = buf;
-//     *delim = '\0';
-//     buf = delim + 1;
-//     while (*buf && (*buf == ' ')) /* Ignore spaces */
-//       buf++;
 //   }
-//   argv[argc] = NULL;
 
-//   if (argc == 0) /* Ignore blank line */
+//   buflen = strlen(buf);
+//   for (int p = 0, q = 0; p < buflen && q < buflen;) {
+//     if (buf[q] != ' ') {
+//       q++;
+//       continue;
+//     }
+//     buf[q] = '\0';
+//     argv[argc++] = buf + p;
+//     p = q + 1;
+//   }
+
+//   // Check if run in background
+//   if (!strcmp(argv[argc - 1], "&")) {
 //     return 1;
-
-//   /* Should the job run in the background? */
-//   if ((bg = (*argv[argc - 1] == '&')) != 0) argv[--argc] = NULL;
-
-//   return bg;
+//   } else {
+//     return 0;
+//   }
 // }
+
+int parseline(char* buf, char** argv) {
+  char* delim; /* Points to first space delimiter */
+  int argc;    /* Number of args */
+  int bg;      /* Background job? */
+
+  buf[strlen(buf) - 1] = ' ';   /* Replace trailing '\n' with space */
+  while (*buf && (*buf == ' ')) /* Ignore leading spaces */
+    buf++;
+
+  /* Build the argv list */
+  argc = 0;
+  while ((delim = strchr(buf, ' '))) {
+    argv[argc++] = buf;
+    *delim = '\0';
+    buf = delim + 1;
+    while (*buf && (*buf == ' ')) /* Ignore spaces */
+      buf++;
+  }
+  argv[argc] = NULL;
+
+  if (argc == 0) /* Ignore blank line */
+    return 1;
+
+  /* Should the job run in the background? */
+  if ((bg = (*argv[argc - 1] == '&')) != 0) argv[--argc] = NULL;
+
+  return bg;
+}
