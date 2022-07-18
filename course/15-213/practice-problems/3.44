@@ -10,19 +10,19 @@ i   c   s   j   Total   Alignment
 0   8   16  24  32      8
 
 
-C. struct P3 { long w[2]; int *c[2] };
+C. struct P3 { long w[2]; int *c[2]; };
 ===================================================
 w   c   Total   Alignment
 0   16  32      8
 
 
-D. struct P4 { char w[16]; char *c[2] };
+D. struct P4 { char w[16]; char *c[2]; };
 ===================================================
 w   c   Total   Alignment
 0   16  32      8
 
 
-E. struct P5 { struct P4 a[2]; struct P1 t };
+E. struct P5 { struct P4 a[2]; struct P1 t; };
 ===================================================
 a   t   Total   Alignment
 0   64  88      8

@@ -1,3 +1,14 @@
+* [ ] What is a re-entrant mutex lock
+* [ ] why a net.Conn is passed by value
+* [ ] integer division round toward zero
+* [x] Data alignment (P309)
+* [ ] `errno`, `strerro`, `perror`
+* [ ] what is dump core
+* [ ] When to use fflush()
+* [ ] Does SIGCONT send SIGCHLD on macos
+* [ ] git rebase
+* [ ] write-through and write-back
+
 doubling test can't tee
 
 -----------------------------------------------------------------------
@@ -31,17 +42,6 @@ Some bit wise exercise:
 
 -----------------------------------------------------------------------
 
-What is a re-entrant mutex lock
-
------------------------------------------------------------------------
-
-why a net.Conn is passed by value
-
------------------------------------------------------------------------
-
-integer division round toward zero
-
------------------------------------------------------------------------
 
 long P(long x, long y) {
   long u = Q(y);
@@ -65,8 +65,6 @@ pop  rbp
 
 ---
 
-write back && write through
-
 ---
 
 > Further, the cost of reading the first byte from a disk sector is about
@@ -81,16 +79,3 @@ The data segment follows the code segment after a suitable alignment gap.
 An important point to realize is that at any point in time, the swap space
 bounds the total amount of virtual pages that can be allocated by the currently
 running processes.
-
----
-
-alignment (P309)
-
----
-
-* errno
-* strerro
-
----
-
-what is dump core

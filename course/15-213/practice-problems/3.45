@@ -12,8 +12,9 @@ struct {
 A. What are the byte offsets of all the fields in the structure?
 B. What is the total size of the structure?
 ----------------------------------------------------------------
-a   b   c   d   e   f   g   h   Total   Alignment
-0   8   9   11  16  24  32  40  56      8
+Field     a   b   c   d   e   f   g   h   Total   Alignment
+Size      8   4   1   2   8   8   4   8       
+Offset    0   8   12  14  16  32  40  48  56      8
 
 
 C. Rearrange the fields of the structure to minimize wasted space, and then
@@ -33,3 +34,28 @@ struct {
 
 a   b   c   d   e   f   g   h   Total   Alignment
 0   8   16  24  32  36  40  42  48      8
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+struct {
+     char*    a;
+     short    b;
+     double   c;
+     char     d;
+     float    e;
+     char     f;
+     long     g;
+     int      h;
+}
+
+Field   a   b   c   d   e   f   g   h   Total   Alignment
+---------------------------------------------------------
+Size    8   2   8   1   4   1   8   4
+Offset  0   8   16  24  28  32  40  48  56      8
+
+> The compiler must ensure that any pointer p of type `struct S1*` satisfies a
+> 4-byte alignment.
