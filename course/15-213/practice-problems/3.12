@@ -1,4 +1,3 @@
-
 ```c
 void uremdiv(unsigned long x, unsigned long y, unsigned long *qp,
              unsigned long *rp) {

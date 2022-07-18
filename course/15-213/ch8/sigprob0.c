@@ -11,9 +11,9 @@ void handler1(int sig) {
   sigset_t mask, preMask;
 
   Sigfillset(&mask);
-  Sigprocmask(SIG_BLOCK, &mask, &preMask);
+  // Sigprocmask(SIG_BLOCK, &mask, &preMask);
   Sio_putl(--counter);
-  Sigprocmask(SIG_SETMASK, &preMask, NULL);
+  // Sigprocmask(SIG_SETMASK, &preMask, NULL);
 
   _exit(0);
 }
@@ -35,9 +35,9 @@ int main(void) {
   Waitpid(-1, NULL, 0);
 
   Sigfillset(&mask);
-  Sigprocmask(SIG_BLOCK, &mask, &preMask);
+  // Sigprocmask(SIG_BLOCK, &mask, &preMask);
   printf("%ld", ++counter);
-  Sigprocmask(SIG_SETMASK, &preMask, NULL);
+  // Sigprocmask(SIG_SETMASK, &preMask, NULL);
 
   return 0;
 }

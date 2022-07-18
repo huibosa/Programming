@@ -107,7 +107,6 @@ The stack pointer `%rsp` holds the address of the top stack element.
 Pushing a quad word value onto the stack involves first decrementing the stack
 pointer by 8 and then writing the value at the new top-of-stack address.
 
-
 ```
 # pushq %rbp is equivalent to:
 subq $8, %rsp       # decrement stack pointer
@@ -116,7 +115,6 @@ movq %rbp, (%rsp)   # store %rbp on stack
 
 Popping a quad word involves reading from the top-of-stack location and then
 incrementing the stack pointer by 8. 
-
 
 ```
 popq %rax is equivalent to:
@@ -170,13 +168,13 @@ leaq (%rax, %rdx, 4), %rax
 ### Shift Operations
 
 The different shift instructions can specify the shift amount either as an
-immediate value or with the single-byte register %cl.
+immediate value or with the single-byte register `%cl`.
 
 With x86-64, a shift instruction operating on data values that are w bits long
-determines the shift amount from the low-order m bits of register %cl, where
-$2^m = w$. The higher-order bits are ignored.
+determines the shift amount from the low-order `m` bits of register `%cl`, where
+$2^m=w$. The higher-order bits are ignored.
 
-So, for example, when register %cl has hexadecimal value 0xFF, then instruction
+So, for example, when register `%cl` has hexadecimal value 0xFF, then instruction
 `salb` would shift by 7, while `salw` would shift by 15, `sall` would shift by
 31, and `salq` would shift by 63.
 

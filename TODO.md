@@ -8,6 +8,7 @@
 * [ ] Does SIGCONT send SIGCHLD on macos
 * [ ] git rebase
 * [ ] write-through and write-back
+* [ ] async-safe-function
 
 doubling test can't tee
 
