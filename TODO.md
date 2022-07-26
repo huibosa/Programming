@@ -9,6 +9,8 @@
 * [ ] git rebase
 * [ ] write-through and write-back
 * [ ] async-safe-function
+* [ ] make DESTDIR and -prefix
+* [ ] when to use parentes in C macro
 
 doubling test can't tee
 

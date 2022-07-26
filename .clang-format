@@ -1,6 +1,7 @@
 BasedOnStyle: Google
 DerivePointerAlignment: false
 PointerAlignment: Left
-SortIncludes:false
+SortIncludes: false
 
 IncludeBlocks: Merge
+ColumnLimit: 0
