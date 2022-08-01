@@ -1,1 +1,0 @@
-THe remaining 8 bytes in the segment correspond to .bss data that will be initialized to zero at run time

@@ -1,9 +1,0 @@
-/* Determine whether arguments can be added without overflow */
-int uadd_ok(unsigned x, unsigned y) {
-  return x + y >= x ? 1 : 0
-}
-
-int uadd_ok(unsigned x, unsigned y) {
-  unsigned sum = x+y;
-  return sum >= x;
-}

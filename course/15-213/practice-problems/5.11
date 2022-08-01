@@ -1,8 +1,0 @@
-We can see that this function has a write/read dependency between successive
-iterations—the destination value p[i] on one iteration matches the source value
-p[i-1] on the next. A critical path is therefore formed for each iteration consisting
-of a store (from the previous iteration), a load, and a floating-point addition.
-The CPE measurement of 9.0 is consistent with our measurement of 7.3 for the
-CPE of write_read when there is a data dependency, since write_read involves
-an integer addition (1 clock-cycle latency), while psum1 involves a floating-point
-addition (3 clock-cycle latency).

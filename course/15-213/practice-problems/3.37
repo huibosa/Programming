@@ -1,7 +1,0 @@
-Expression    Type      Value                 Assembly code
-----------------------------------------------------------------------------
-P[1]          short     M[x_P + 2i]           movw  2(%rdx), %ax
-P+3+i         short*    x_P + 6 + 2i          leaq  6(%rdx, %rcx, 2), %rax
-P[i*6-5]      short     M[x_P +12i -10]       movw  -10(%rdx, %rcx, 12), %ax
-P[2]          short     M[x_P + 4]            movw  4(%rdx), %ax
-&P[i+2]       short*    x_P + 2i + 4          leaq  4(%rdx, %rcx, 2), %rax

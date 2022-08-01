@@ -1,4 +1,0 @@
-   SIGUSR2      SIGUSR2  SIGUSR2  SIGUSR2  SIGUSR2
-      |            |        |        |        |
-being handled   Pending  Canceld  Canceld  Canceld
- need 1 sec

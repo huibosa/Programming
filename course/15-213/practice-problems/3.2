@@ -1,9 +1,0 @@
-movl  %eax,           (%rsp)
-movw  (%rax),         %dx
-movb  $0xFF,          %bl
-movb  (%rsp,%rdx,4),  %dl
-movq  (%rdx),         %rax
-movw  %dx,            (%rax)
-
-> Memory references in x86-64 are always given with quad word registers, such
-> as %rax, even if the operand is a byte, single word, or double word.

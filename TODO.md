@@ -11,6 +11,7 @@
 * [ ] async-safe-function
 * [ ] make DESTDIR and -prefix
 * [ ] when to use parentes in C macro
+* [ ] `jbe` command
 
 doubling test can't tee
 

@@ -1,5 +1,0 @@
-In the previous dotprod example, what fraction of the total references to x and y
-will be hits once we have padded array x?
-
-The padding eliminates the conflict misses. Thus, three-fourths of the references
-are hits.

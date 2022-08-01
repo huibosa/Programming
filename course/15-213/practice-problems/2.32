@@ -1,8 +1,0 @@
-/* Determine whether arguments can be subtracted without overflow */
-/* WARNING: This code is buggy. */
-int tsub_ok(int x, int y) {
-    return tadd_ok(x, –y);
-}
-
-
-except when y is Tmin
