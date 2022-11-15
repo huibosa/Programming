@@ -2,7 +2,7 @@
 * [ ] why a net.Conn is passed by value
 * [ ] integer division round toward zero
 * [x] Data alignment (P309)
-* [ ] `errno`, `strerro`, `perror`
+* [x] `errno`, `strerror`, `perror`
 * [ ] what is dump core
 * [ ] When to use fflush()
 * [ ] Does SIGCONT send SIGCHLD on macos
@@ -12,6 +12,9 @@
 * [ ] make DESTDIR and -prefix
 * [ ] when to use parentes in C macro
 * [ ] `jbe` command
+* [ ] is `scanf` and `sscanf` safe
+* [ ] `mmap`
+* [ ] least squares
 
 doubling test can't tee
 
